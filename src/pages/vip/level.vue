@@ -88,8 +88,9 @@ function handleDone(pwd) {
     id: selVip.value.id,
     safeword: pwd
   }).then(res => {
-    showSuccessToast('购买成功')
+    showToast($('购买成功'))
     userStore.getVipList()
+    userStore.getUserInfo()
 
   }).finally(() => {
     closeToast()

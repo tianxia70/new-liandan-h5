@@ -98,8 +98,9 @@ const routes = [
 		component: () => import('@/pages/password/changeTransPassword.vue')
 	},
 	{
-		path: '/customerService',		// 修改资金密码
+		path: '/customerService',		// 在线客服
 		name: 'customerService',
+		meta: { noAuth: true },
 		component: () => import('@/pages/customerService/index.vue')
 	},
 	{

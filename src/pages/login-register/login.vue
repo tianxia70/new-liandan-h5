@@ -85,7 +85,8 @@
       <div class="check-item">
         <van-checkbox v-model="checked" shape="square" >{{ $t('记住我') }}</van-checkbox>
         
-        <div class="btn btn-link">{{ $t('在线客服') }}</div>
+        <!-- <div class="btn btn-link" @click="goChat()">{{ $t('在线客服') }}</div> -->
+        <div class="btn btn-link" @click="navigateTo('/customerService')">{{ $t('在线客服') }}</div>
       </div>
       <div class="login-btn" @click="handleSubmit">
         {{ $t('登录') }}
@@ -115,6 +116,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { closeToast, showLoadingToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import { validatePhone, validateEmail } from '@/utils/validate'
+import { navigateTo } from '@/utils'
 import {useRouter} from "vue-router"
 import { apiLogin } from '@/api/login'
 import { phoneCodeColumns } from '@/config/options'
@@ -279,6 +281,10 @@ function handleSubmit() {
   }).finally(() => {
     closeToast()
   })
+}
+
+function goChat(){
+  im_create_iframe_client.open()
 }
 
 </script>

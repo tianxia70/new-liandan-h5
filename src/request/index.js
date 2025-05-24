@@ -70,7 +70,8 @@ request.interceptors.response.use(res => { // 200开头的
         const {errCode, data, msg} = res.data
         switch (Number(errCode) * 1) {
             case 200000:
-                return Promise.resolve(data || {})
+                // return Promise.resolve(data || {})
+                return res.data
             case 1:
                 // console.log('i18n.t(msg)', i18n.global.t('asd') || '1111', msg)
                 showNotify({type: 'danger', message: i18n.global.t(msg) || msg});

@@ -89,7 +89,7 @@
       <div class="check-item">
         <!-- <van-checkbox v-model="checked" shape="square" >Remember me</van-checkbox> -->
         <div></div>
-        <div class="btn btn-link">{{ $t('在线客服') }}</div>
+        <div class="btn btn-link" @click="navigateTo('/customerService')">{{ $t('在线客服') }}</div>
       </div>
       <!-- <div class="login-btn">
         <van-button round block type="primary" :loading="btnLoading" @click="handleSubmit">
@@ -123,6 +123,7 @@ import { showLoadingToast, closeToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import {useRouter} from "vue-router"
 import { validatePhone, validateEmail } from '@/utils/validate'
+import { navigateTo } from '@/utils'
 import { apiRegister, apiSendCodeNoneLogin } from '@/api/login'
 import { phoneCodeColumns } from '@/config/options'
 import { useUserStore } from '@/store'
