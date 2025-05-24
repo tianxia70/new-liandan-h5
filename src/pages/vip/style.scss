@@ -1,0 +1,103 @@
+
+.levels-item {
+  background-repeat: no-repeat;
+  background-size: 100% 100% !important;
+  // margin-top: .32rem;
+  // display: flex;
+  height: 160px;
+  padding: 20px;
+  position: relative;
+
+  // &::after {
+  //   z-index: 1;
+  //   content: '';
+  //   width: 83px;
+  //   height: 64px;
+  //   position: absolute;
+  //   right: 0;
+  //   bottom: 0;
+  //   background-repeat: no-repeat;
+  //   background-size: 100%;
+  // }
+
+  .vip-img {
+    z-index: 1;
+    width: 83px;
+    height: 64px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  &:nth-child(n+1) {
+    background-image: url(../../assets/images/vip/vip1-bg.png);
+  }
+  &:nth-child(2n+1) {
+    background-image: url(../../assets/images/vip/vip2-bg.png);
+  }
+  &:nth-child(3n+1) {
+    background-image: url(../../assets/images/vip/vip3-bg.png);
+  }
+  &:nth-child(4n+1) {
+    background-image: url(../../assets/images/vip/vip4-bg.png);
+  }
+
+  // &.vip-bg1 {
+  //   background-image: url(../../assets/images/vip/vip1-bg.png);
+    
+  // }
+  // &.vip-bg2 {
+  //   background-image: url(../../assets/images/vip/vip2-bg.png);
+    
+  // }
+  // &.vip-bg3 {
+  //   background-image: url(../../assets/images/vip/vip3-bg.png);
+   
+  // }
+  // &.vip-bg4 {
+  //   background-image: url(../../assets/images/vip/vip4-bg.png);
+    
+  // }
+
+  .level-header {
+    position: relative;
+    z-index: 2;
+    font-size: 16px;
+    padding-bottom: 10px;
+
+    .right-btn {
+      width: 40px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      background: var(--ex-primary-color1);
+      color: var(--ex-primary-font-color4);
+      border-radius: 12px;
+    }
+
+    .header-body {
+      .vip-icon {
+        font-size: 20px;
+      }
+      .name {
+        padding: 0 5px;
+      }
+    }
+  }
+  .level-body {
+    z-index: 2;
+    height: 80px;
+    overflow-y: auto;
+    position: relative;
+
+    .item {
+      padding: 3px 0;
+
+      span {
+        color: $primary-color;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+/* 颜色值 */
+$white: #ffffff;
+$black: #000000;
+$dark-black: hsl(222, 16%, 16%);
+// $grey:#868C9A;
+$grey: #f3f3f3;
+$dark-grey: #868C9A;
+$light-grey: #C8CAD2;
+$border-grey: #E5E7ED;
+$blue: #2C78F8;
+$light-blue: #1199FA;
+$red: #F6465D;
+$green: #2EBD85;
+$purple: #9A4DFD;
+
+// 项目自定义变量
+$primary-color: var(--van-primary-color);
+$font-size-base: 16px;
+$panel-color: #fff;
+$panel-color2: #fefeff;
+
+
+$navbar-primary-bg: var(--van-primary-color);
+$navbar-primary-color: var(--ex-navbar-text-color);

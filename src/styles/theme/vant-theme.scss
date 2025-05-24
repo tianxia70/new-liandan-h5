@@ -1,0 +1,49 @@
+// 默认主题 (绿色)
+:root {
+  --van-primary-color: #1BBA85;
+
+  --ex-navbar-text-color: #fff;
+  --app-body-color: #F6F7F7;
+  // --van-success-color: #00b578;
+  // --van-warning-color: #ff8f1f;
+  // --van-danger-color: #ff3141;
+  --theme-bg-image: url('@/assets/images/themes/green/bg.png');
+  --theme-header-top-bg-image: url('@/assets/images/themes/green/header-top.png');
+  --theme-balance-bg: url('@/assets/images/themes/green/balance-bg.png');
+  --welcome-bg: url('@/assets/images/themes/green/welcome.png');
+  --login-bg: url('@/assets/images/themes/green/login-top.png');
+  --login-btn-bg: url('@/assets/images/themes/green/login-btn.png');
+  --i18n-icon: url('@/assets/images/themes/green/i18n.png');
+
+  --ex-primary-color: #1BBA85;
+  --ex-primary-color1: #1BBA85;
+  --ex-primary-color2: #1BBA85;
+  --ex-primary-color3: #1BBA85;
+  --ex-primary-color4: #222B45;
+  --ex-primary-color5: #1BBA85;
+  --ex-primary-color6: #1BBA85;
+  --ex-primary-font-color: #333;
+  --ex-primary-font-color2: #666;
+  --ex-primary-font-color3: #999;
+  --ex-deposit-color: rgba(74, 67, 236, .1);
+  --ex-primary-font-color4: #FFFFFF;
+  --ex-primary-font-color5: #000000;
+  --ex-primary-back-color: #F6F7F7;
+  --ex-primary-border: #ebecef;
+
+  --van-checkbox-checked-icon-color: var(--ex-primary-color2);
+  --van-cell-group-inset-padding: 0;
+}
+
+// 红色主题
+[data-theme="red"] {
+  --van-primary-color: #f5222d;
+  // --van-success-color: #52c41a;
+  // --van-warning-color: #faad14;
+  // --van-danger-color: #f5222d;
+  --theme-bg-image: url('@/assets/images/themes/red/bg.png');
+}
+
+// [data-theme] {
+//   --van-primary-color: var(--van-primary-color) !important;
+// }

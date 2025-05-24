@@ -1,0 +1,12 @@
+// 默认主题 (绿色)
+:root {
+  --van-primary-color: #1BBA85;
+
+  --ex-navbar-text-color: #fff;
+  // --van-success-color: #00b578;
+  // --van-warning-color: #ff8f1f;
+  // --van-danger-color: #ff3141;
+  --theme-bg-image: url('@/assets/images/themes/green/bg.png');
+  --login-bg: url('@/assets/images/themes/green/login-top.png');
+  --i18n-icon: url('@/assets/images/themes/green/i18n.png');
+}
