@@ -131,7 +131,8 @@
       <!-- <div class="shop-name py-10 font-16 two-text">撒打算大大的撒</div> -->
       <div class="info-item">
         <div>{{ $t('佣金比例') }}</div>
-        <div>{{ preciseMul(orderInfo.rebateRate, 100) }}%</div>
+        <!-- <div>{{ preciseMul(orderInfo.rebateRate, 100) }}%</div> -->
+         <div>{{ orderInfo.rebateRate }}%</div>
       </div>
       <div class="info-item">
         <div>{{ $t('利润') }}</div>

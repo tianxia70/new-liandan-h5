@@ -88,7 +88,7 @@ request.interceptors.response.use(res => { // 200开头的
                 // window.location = '/#/login'
                 return
             default:
-                showNotify({type: 'danger', message: i18n.global.t('errorCode.'+errCode)  || msg});
+                showNotify({type: 'danger', message: errCode ? i18n.global.t('errorCode.'+errCode, data) : msg});
                 return Promise.reject(res.data || res.msg)
         }
     }, error => {
