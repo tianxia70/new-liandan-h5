@@ -19,6 +19,7 @@ export default {
 	'记住我': 'Remember me',
   '欢迎页文本': 'Transparent and stable, the preferred platform trusted by millions of encrypted users.',
 	'站内信': 'notifications',
+	'确认购买': 'Confirm the purchase {name}?',
 
   '请输入手机号': 'Please enter phone number',
   '请输入正确格式的手机号': 'Please enter a valid phone number',

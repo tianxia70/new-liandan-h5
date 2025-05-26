@@ -37,9 +37,11 @@ import PasswordDialog from '@/components/password-dialog/index.vue'
 import {useRouter} from "vue-router"
 import { useUserStore, useWalletStore } from '@/store'
 import { apiUserLevelBuy } from '@/api/user'
+import { useI18n } from 'vue-i18n'
 import { showToast, showConfirmDialog, showLoadingToast, closeToast, showSuccessToast } from 'vant'
 const userStore = useUserStore()
 
+const { t } = useI18n()
 const router = useRouter(); // 获取路由实例
 const showPwd = ref(false)
 const selVip = ref({})
@@ -66,8 +68,8 @@ function handleBuy(item) {
 
 
     showConfirmDialog({
-      title: '提示',
-      message: '确认购买 '+item?.title+'?',
+      title: t('温馨提示'),
+      message: t('确认购买', {name: item?.title}),
     }).then(() => {
       showPwd.value = true
       selVip.value = {...item}

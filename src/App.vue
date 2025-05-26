@@ -14,7 +14,7 @@ import { useI18n } from 'vue-i18n'
 
 const { locale, t } = useI18n()
 // console.log('locale', locale.value)
-import request from "@/request";
+import request from "@/request/kefuRequest";
 import default_customer from "@/assets/img/default_customer.png"
 
 import headImg1 from "@/assets/img/avatar/1.png"
@@ -87,7 +87,7 @@ const token = computed(() => {
 
 watch(() => token.value, (val) => {
   if(val) {
-    console.log('token')
+    // console.log('token')
     getAppCfg()
   } else {
     // token不存在的时候 重置聊天
@@ -210,7 +210,7 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
         other: {
           iconStatus: false,
           callApi: request,
-          fileUpload: function (fileInfo) {
+          fileUpload: async function (fileInfo) {
             // 创建 Blob 对象
             let blob = new Blob([fileInfo.buffer], { type: fileInfo.fileType });
             // 你可以在 iframe 中使用这个 Blob 对象
@@ -219,9 +219,10 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
             formData.append("file", file)
             formData.append("moduleName", "user")
 
-            return request({
+            return await request({
               url: `api/user/uploadimg`,
               method: "post",
+              isKefu: true,
               data: formData,
               headers: {
                 "Content-Type": "multipart/form-data", // 指定请求头为文件上传类型
