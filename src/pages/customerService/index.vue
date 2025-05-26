@@ -9,7 +9,7 @@
         <div class="t2">{{ $t('如果遇到问题需要帮助，请联系线上客服') }}</div>
 
         <div  class="pt-50"></div>
-        <van-button block type="primary" @click="start">
+        <van-button block type="primary" @click="handleStart">
           {{ $t('开始咨询') }}
         </van-button>
       </div>
@@ -18,15 +18,18 @@
 </div>
 </template>
 <script setup>
-import { navigateTo, navigateBack, enterOnlineService } from '@/utils'
+import { navigateTo, navigateBack } from '@/utils'
 
-function start(){
+function handleStart(){
   let user = localStorage.getItem('user')
   user = JSON.parse(user)
   //https://chatlink.mstatik.com/widget/standalone.html?eid=868016f872a48af5e889858c85acdfe6
   // window.location.href = 'https://chatlink.mstatik.com/widget/standalone.html?eid=868016f872a48af5e889858c85acdfe6&language=en'
   console.log('user', user)
-  enterOnlineService(user)
+  // enterOnlineService(user)
+  
+  im_create_iframe_client && im_create_iframe_client.open()
+
 }
 </script>
 <style scoped lang="scss">

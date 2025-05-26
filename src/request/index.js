@@ -2,6 +2,7 @@ import axios from 'axios'
 import { showNotify } from 'vant'
 import { i18n } from "@/i18n";
 import Config from "@/config";
+import { closeToast, showLoadingToast, showToast } from 'vant'
 import router from '@/router/router'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -70,13 +71,18 @@ request.interceptors.response.use(res => { // 200开头的
         const {errCode, data, msg} = res.data
         switch (Number(errCode) * 1) {
             case 200000:
-                // return Promise.resolve(data || {})
-                return res.data
+                return Promise.resolve(data || {})
+                // return res.data
             case 1:
                 // console.log('i18n.t(msg)', i18n.global.t('asd') || '1111', msg)
                 showNotify({type: 'danger', message: i18n.global.t(msg) || msg});
                 return Promise.reject(res.data || res.msg)
             case 400003:
+                localStorage.removeItem('token')
+                router.replace('/login')
+                // window.location = '/#/login'
+                return
+            case 403:
                 localStorage.removeItem('token')
                 router.replace('/login')
                 // window.location = '/#/login'

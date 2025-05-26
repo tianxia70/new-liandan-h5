@@ -7,10 +7,13 @@
 
 <script setup>
 import { ref, onMounted, computed, watchEffect, watch } from 'vue'
-import { useUserStore } from '@/store'
-import { useWalletStore } from '@/store'
+import { useUserStore, useWalletStore } from '@/store'
+import { primaryColor } from '@/utils/theme'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
+const { locale, t } = useI18n()
+// console.log('locale', locale.value)
 import request from "@/request";
 import default_customer from "@/assets/img/default_customer.png"
 
@@ -70,6 +73,58 @@ function getHeadImgByIndex(index) {
 }
 let mp3, play
 audioInit()
+
+const userStore = useUserStore()
+const walletStore = useWalletStore()
+const route = useRoute()
+const router = useRouter()
+// const usdt = computed(() => {
+// 	return walletStore.usdt || 0
+// })
+const token = computed(() => {
+  return userStore.getToken
+})
+
+watch(() => token.value, (val) => {
+  if(val) {
+    console.log('token')
+    getAppCfg()
+  } else {
+    // token不存在的时候 重置聊天
+    getAppCfg()
+  }
+})
+
+onMounted(async() => {
+  getAppCfg()
+  getUserInfo()
+})
+
+function getUserInfo() {
+  if(token.value) {
+    userStore.getUserInfo()
+  } else {
+    // 如果没有登录，除了不需要登录的路由，其他全部跳转登录
+    if(!route?.meta?.noAuth){
+      router.replace('/welcome')
+    }
+  }
+}
+
+async function getAppCfg() {
+
+	if(token.value) {
+		userStore.getVipList()
+		walletStore.getWalletBalance()
+	}
+  chatRemove()
+  setTimeout(async () => {
+
+    ImUrl.value="https://lt.xhduh.com/"
+    await chatInit(ImUrl)
+  }, 2000)
+}
+
 function audioInit() {
   play = function () {
     if (mp3) {
@@ -142,19 +197,20 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
   if (chatIsInit) {
     return
   }
+  const title = t('在线客服')
   chatIsInit = true
   const extData = {
     routerConfig: [
       {
         router: "client",
         params: {
-          userType: 1,//1:游客，5：会员，
-          lang: 'en',
+          userType: token.value ? 5 : 1,//1:游客，5：会员，
+          lang: locale.value = 'en-US' ? 'en' : locale.value,
         },
         other: {
           iconStatus: false,
           callApi: request,
-          fileUpload: async function (fileInfo) {
+          fileUpload: function (fileInfo) {
             // 创建 Blob 对象
             let blob = new Blob([fileInfo.buffer], { type: fileInfo.fileType });
             // 你可以在 iframe 中使用这个 Blob 对象
@@ -174,8 +230,8 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
             })
           },
           imDataConfig: {
-            color: "red",//颜色，你们自己配置，要跟网站的主颜色一致
-            name: "聊天标题",//聊天窗口标题
+            color: primaryColor,//颜色，你们自己配置，要跟网站的主颜色一致
+            name: title || "chat",//聊天窗口标题
             default_customer: getImageUrlIm(default_customer),//默认客服头像
             logo: getImageUrlIm(default_customer),//默认客服头像
             // default_visitor:"",//默认游客头像
@@ -214,52 +270,9 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
     await loadJs(`${ImUrl.value}im_create_iframe.js?id=${Math.random()}`)
     // await loadJs(`http://localhost:3333/im_create_iframe.js?id=${Math.random()}`)
   }
+  console.log('加载客服: ', token.value)
   await im_create_iframe.init(extData)
 }
-const userStore = useUserStore()
-const walletStore = useWalletStore()
-const route = useRoute()
-const router = useRouter()
-// const usdt = computed(() => {
-// 	return walletStore.usdt || 0
-// })
-const token = computed(() => {
-  return userStore.getToken
-})
-
-watch(() => token.value, (val) => {
-  if(val) {
-    getAppCfg()
-  }
-})
-
-onMounted(async() => {
-  getAppCfg()
-  getUserInfo()
-  ImUrl.value="https://lt.xhduh.com/"
-  await chatInit(ImUrl)
-})
-
-function getUserInfo() {
-  console.log('route', route)
-  if(token.value) {
-    userStore.getUserInfo()
-  } else {
-    // 如果没有登录，除了不需要登录的路由，其他全部跳转登录
-    if(!route?.meta?.noAuth){
-      router.replace('/welcome')
-    }
-  }
-}
-
-function getAppCfg() {
-
-	if(token.value) {
-		userStore.getVipList()
-		walletStore.getWalletBalance()
-	}
-}
-
 </script>
 
 <style scoped lang="scss">

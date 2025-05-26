@@ -224,20 +224,20 @@ export const delay = (timeout) => {
     });
   };
 
-export const enterOnlineService = async (user) => {
-    // if(window.ssq)
-console.log('window.ssq', window.ssq, user)
-    window.ssq.push('clearUser')
-    await window.ssq.push('setLoginInfo', {
-        user_id: user.usercode,
-        user_name: user.username || '',
-        language: i18n.global.locale || 'en-US',
-        phone: user.phone || '',
-        email: user.email || '',
-        description: `用户code: ${user.usercode}`
-    });
-    window.ssq?.push("chatOpen");
-}
+// export const enterOnlineService = async (user) => {
+//     // if(window.ssq)
+// console.log('window.ssq', window.ssq, user)
+//     window.ssq.push('clearUser')
+//     await window.ssq.push('setLoginInfo', {
+//         user_id: user.usercode,
+//         user_name: user.username || '',
+//         language: i18n.global.locale || 'en-US',
+//         phone: user.phone || '',
+//         email: user.email || '',
+//         description: `用户code: ${user.usercode}`
+//     });
+//     window.ssq?.push("chatOpen");
+// }
 
 
 // 处理数值的千分位和保留小数位

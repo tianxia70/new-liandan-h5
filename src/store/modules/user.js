@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', {
 		// },
 		getUserInfo(token) {
 			return new Promise((resolve, reject) => {
-				apiUserInfo().then(res => {
+				apiUserInfo({}).then(res => {
 					if(res.usercode) {
 						if(token) {
 							this.token = token

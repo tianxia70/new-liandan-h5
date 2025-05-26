@@ -122,6 +122,10 @@ const userInfo = computed(() => {
   return userStore.getUser
 })
 
+const curVip = computed(() => {
+  return userStore.getCurVip
+})
+
 onMounted(() => {
   apiUserFindUserInfo({}).then(res => {
     infoData.value = { ...res }

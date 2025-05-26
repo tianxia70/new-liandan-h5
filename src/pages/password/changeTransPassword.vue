@@ -11,7 +11,7 @@
       <van-cell-group >
         <van-field
           v-model="formData.password"
-          name="username"
+          name="password"
           :type="formData.eyePwd ? 'password' : 'text'"
           :placeholder="$t('请输入6位数字旧密码')"
           clearable
@@ -62,7 +62,7 @@
       <van-cell-group >
         <van-field
           v-model="formData.password"
-          name="username"
+          name="password"
           :type="formData.eyePwd ? 'password' : 'text'"
           :placeholder="$t('请输入6位数字密码')"
           clearable
