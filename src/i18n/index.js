@@ -53,12 +53,17 @@ const messages = {
     },
 
 }
+
 // 使用vue-i18n库
 export const i18n = createI18n({
+    legacy: false,
     locale: lang,
     messages
 })
 
+// i18n.global.locale = lang
+
+// console.log('lang', i18n.global.locale)
 // 更新vant组件库本身的语言变化，支持国际化
 export function vantLocales(lang) {
     if (lang === 'en-US') {

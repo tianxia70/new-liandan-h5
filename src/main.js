@@ -17,7 +17,8 @@ app.use(store)
 app.use(router)
 app.use(Vant)
 
-vantLocales(i18n.locale); // 配置国际化
+// console.log('i18n.locale', i18n.global.locale)
+vantLocales(i18n.global.locale); // 配置国际化
 
 // app.use(Notify);
 // app.config.globalProperties.$notify = Notify;

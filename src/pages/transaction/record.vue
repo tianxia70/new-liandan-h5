@@ -78,7 +78,10 @@ const actions = [
   {name: t('vip-recharge'), key: "vip-recharge"},
   {name: t('freeze-order'), key: "freeze-order"},
   {name: t('unfreeze-order'), key: "unfreeze-order"},
+  {name: t('unfreeze-order-rebate'), key: "unfreeze-order-rebate"},
+  {name: t('unfreeze-order-money'), key: "unfreeze-order-money"},
   {name: t('pay-order'), key: "pay-order"},
+  {name: t('pay-level'), key: "pay-level"},
   {name: t('jackpot'), key: "jackpot"},
 ]
 const content_type = ref('')

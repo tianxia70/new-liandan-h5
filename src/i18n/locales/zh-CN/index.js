@@ -85,7 +85,10 @@ export default {
 	'freeze-order': '冻结订单',
 	'unfreeze-order': '解冻订单',
 	'pay-order': '支付订单/商品购买',
+	'pay-level': 'VIP购买',
 	'gift_amount': '完成新手任务奖励',
+	'unfreeze-order-rebate': '解冻返佣金额',
+	'unfreeze-order-money': '解冻订单本金',
 	'jackpot': '彩金赠送',
 	'title': '這是標題',
 

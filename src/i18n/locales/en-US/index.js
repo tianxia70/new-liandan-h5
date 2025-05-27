@@ -85,7 +85,10 @@ export default {
   'freeze-order': 'Freeze Order',
   'unfreeze-order': 'Unfreeze Order',
   'pay-order': 'Pay Order/Product Purchase',
+	'pay-level': 'VIP purchase',
   'gift_amount': 'Beginner Reward',
+	'unfreeze-order-rebate': 'Unfreeze rebate commission amount',
+	'unfreeze-order-money': 'Unfreeze order principal',
   'jackpot': 'Bonus',
   'title': 'Title',
 

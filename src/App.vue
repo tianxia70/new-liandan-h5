@@ -205,7 +205,7 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
         router: "client",
         params: {
           userType: token.value ? 5 : 1,//1:游客，5：会员，
-          lang: locale.value = 'en-US' ? 'en' : locale.value,
+          lang: locale.value == 'en-US' ? 'en' : locale.value,
         },
         other: {
           iconStatus: false,

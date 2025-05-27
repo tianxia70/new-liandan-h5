@@ -75,7 +75,7 @@
               
             </div>
           </div>
-          <div class="btn">
+          <div class="btn" v-if="item?.status == 0">
             <van-button block round type="primary" @click="handlePayOrder(item)">{{ $t('完成订单') }}</van-button>
           </div>
         </div>
