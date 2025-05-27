@@ -211,7 +211,7 @@ function handleSubmit() {
   // isLoading.value = true
   apiOrderStartPre({}).then(res1 => {
     // console.log('res1', res1)
-    if(res1?.unfinishedId) {
+    if(res1?.unfinishedId && Number(res1.unfinishedId) > 0) {
       showConfirmDialog({
         title: t('抢单失败，当前有未完成的订单'),
         confirmButtonText: t('查看'),
