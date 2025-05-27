@@ -10,11 +10,24 @@ export const apiOrderStartData = (params) => {
     })
 };
 
+
+
+// start页面抢单前置校验
+export const apiOrderStartPre = (params) => {
+    return request({
+        url: "/api/user/order/brush/start-pre",
+        method: "get",
+        loading: true,
+        params
+    })
+};
+
 // start页面抢单接口
 export const apiOrderStartBrush = (data) => {
     return request({
         url: "/api/user/order/brush/start-brush",
         method: "post",
+        loading: true,
         data
     })
 };

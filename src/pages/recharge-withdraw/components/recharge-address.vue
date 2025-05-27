@@ -204,6 +204,8 @@ function handleSubmit() {
         amount.value = 0
         fileList.value = []
         upImg.value = ''
+        
+		    walletStore.getWalletBalance()
         setTimeout(() => {
           router.push('/submitCompleted?path=rechargeRecord')
         }, 2000)

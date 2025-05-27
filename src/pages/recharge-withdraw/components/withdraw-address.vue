@@ -210,6 +210,8 @@ function tixianDone(pwd) {
         showSuccessToast(t('提交成功'));
         amount.value = 0
         // upImg.value = ''
+        
+		    walletStore.getWalletBalance()
         setTimeout(() => {
           router.push('/submitCompleted?path=withdrawRecord')
         }, 2000)

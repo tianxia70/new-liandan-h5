@@ -116,7 +116,7 @@
           </div>
           <div class="item">
             <div>{{ $t('利润') }}</div>
-            <div class="primary-color">${{ smartToFixed(orderInfo.totalPrice - orderInfo.orderRate) }}</div>
+            <div class="primary-color">${{ smartToFixed(orderInfo.orderRate) }}</div>
           </div>
           <div class="item">
             <div>{{ $t('单价') }}</div>
@@ -136,7 +136,7 @@
       </div>
       <div class="info-item">
         <div>{{ $t('利润') }}</div>
-        <div>${{ smartToFixed(orderInfo.totalPrice - orderInfo.orderRate) }}</div>
+        <div>${{ smartToFixed(orderInfo.orderRate) }}</div>
       </div>
       <div class="info-item pay-num">
         <div>{{ $t('需支付') }}</div>
@@ -162,10 +162,10 @@ import { useI18n } from 'vue-i18n'
 import {useRouter} from "vue-router"
 import { useUserStore } from '@/store'
 import PasswordDialog from '@/components/password-dialog/index.vue'
-import { apiOrderStartData, apiOrderStartBrush, apiOrderStartPay  } from '@/api/task'
+import { apiOrderStartData, apiOrderStartPre, apiOrderStartBrush, apiOrderStartPay  } from '@/api/task'
 
 import avatarImg from '@/assets/images/user/headimg.png'
-import { showSuccessToast } from 'vant'
+import { showSuccessToast, showConfirmDialog } from 'vant'
 
 const { t } = useI18n();
 const userStore = useUserStore()
@@ -208,15 +208,39 @@ function getInfoData() {
 }
 
 function handleSubmit() {
-  isLoading.value = true
-  apiOrderStartBrush({}).then(res => {
-    if(res?.orderId) {
-      orderInfo.value = { ...res }
-      showPop.value = true
+  // isLoading.value = true
+  apiOrderStartPre({}).then(res1 => {
+    // console.log('res1', res1)
+    if(res1?.unfinishedId) {
+      showConfirmDialog({
+        title: t('抢单失败，当前有未完成的订单'),
+        confirmButtonText: t('查看'),
+      }).then(() => {
+        router.replace('/task?tab=0')
+      }).catch(() => {
+          // on cancel
+      });
+    } else {
+      apiOrderStartBrush({}).then(res => {
+        if(res?.orderId) {
+          orderInfo.value = { ...res }
+          showPop.value = true
+        }
+      }).finally(() => {
+        // isLoading.value = false
+      })
     }
-  }).finally(() => {
-    isLoading.value = false
+  }).catch(() => {
+    // isLoading.value = false
   })
+  // apiOrderStartBrush({}).then(res => {
+  //   if(res?.orderId) {
+  //     orderInfo.value = { ...res }
+  //     showPop.value = true
+  //   }
+  // }).finally(() => {
+  //   isLoading.value = false
+  // })
 }
 
 function handleDone(pwd) {

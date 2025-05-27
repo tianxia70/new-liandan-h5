@@ -58,7 +58,7 @@
               </div>
               <div class="item-num flex justify-between">
                 <div>{{ $t('利润') }}</div>
-                <div class="money">${{ smartToFixed(item?.totalPrice - item?.orderRate) }}</div>
+                <div class="money">${{ smartToFixed(item?.orderRate) }}</div>
               </div>
               <div class="item-num flex justify-between">
                 <div>{{ $t('单价') }}</div>
@@ -94,16 +94,19 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { navigateTo, preciseMul, smartToFixed } from '@/utils'
 import { apiOrderBrushList, apiOrderStartPay } from '@/api/task'
+import { useI18n } from 'vue-i18n'
 import PasswordDialog from '@/components/password-dialog/index.vue'
 import EmptyComp from '@/components/empty/index.vue'
 import { showToast, showSuccessToast, showLoadingToast, closeToast } from 'vant';
 // const { theme, setTheme } = useTheme()
-import {useRouter} from "vue-router"
+import { useRoute } from "vue-router"
 import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
-const router = useRouter(); // 获取路由实例
-const seltab = ref(-1)
+const { t } = useI18n();
+const route = useRoute()
+// 判断首次加载哪一个tab
+const seltab = ref(Number(route.query.tab) >= 0 ? route.query.tab : -1)
 const showPwd = ref(false)
 const orderInfo = ref({})
 
@@ -145,7 +148,7 @@ function getListData() {
     if(res?.length) {
       listData.value = listData.value.concat(...res)
     }
-    console.log('listData', listData.value)
+    // console.log('listData', listData.value)
     if (res.length < page.pageSize) {
       finished.value = true;
     }
