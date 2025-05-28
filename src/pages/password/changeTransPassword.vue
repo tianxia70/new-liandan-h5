@@ -126,17 +126,17 @@ const userInfo = computed(() => {
 
 function handleSet() {
   if(formData.password.trim() == '' || formData.password.trim().length != 6) {
-    showToast('请输入6位数数字密码')
+    showToast(t('请输入6位数数字密码'))
     return
   }
 
   if(formData.newPassword.trim() == '' || formData.newPassword.trim().length != 6) {
-    showToast('请再次输入6位数字密码')
+    showToast(t('请再次输入6位数字密码'))
     return
   }
   
   if(formData.newPassword.trim() != formData.password.trim()) {
-    showToast('两次输入密码不一致')
+    showToast(t('两次输入密码不一致'))
     return
   }
 
@@ -152,29 +152,35 @@ function handleSet() {
 
 function handleModify() {
   if(formData.password.trim() == '' || formData.password.trim().length != 6) {
-    showToast('请输入6位数字旧密码')
+    showToast(t('请输入6位数字旧密码'))
     return
   }
 
   if(formData.newPassword.trim() == '' || formData.newPassword.trim().length != 6) {
-    showToast('请输入6位数字新密码')
+    showToast(t('请输入6位数字新密码'))
     return
   }
+  
+  if(formData.reNewPassword.trim() == '' || formData.reNewPassword.trim().length != 6) {
+    showToast(t('再次输入6位数字新密码'))
+    return
+  }
+  
   if(formData.newPassword.trim() == formData.password.trim()) {
-    showToast('新密码与旧密码不能一致')
+    showToast(t('新密码与旧密码不能一致'))
     return
   }
   if(formData.newPassword.trim() != formData.reNewPassword.trim()) {
-    showToast('两次输入密码不一致')
+    showToast(t('两次输入密码不一致'))
     return
   }
 
   isLoading.value = true
   apiUserModifyTransPwd({
-    password: formData.password,
-    newPassword: formData.newPassword
+    password: formData.password.trim(),
+    newPassword: formData.newPassword.trim()
   }).then(res => {
-    showSuccessToast('修改成功')
+    showSuccessToast(t('修改成功'))
     userStore.getUserInfo()
     router.go(-1)
   }).finally(() => {

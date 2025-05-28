@@ -16,6 +16,7 @@
 
   
   <van-number-keyboard
+    v-if="userInfo?.safeword"
     v-model="pwdValue"
     :show="showKeyboard"
     @blur="showKeyboard = false"

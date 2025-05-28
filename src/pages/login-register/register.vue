@@ -11,7 +11,7 @@
   <div class="page-body page-scroll">
     <div class="login-navbar">
       <div></div>
-      <div class="lang-icon iconfont icon-earth" @click="goLangFn"></div>
+      <div class="lang-icon iconfont icon-earth" @click="navigateTo('/language')"></div>
     </div>
     <div class="login-header">
       <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
@@ -30,7 +30,7 @@
         <van-cell-group inset v-if="selTab == 'username'">
           <div class="form-item">
             <div class="form-label">{{ $t('账号') }}</div>
-            <van-field v-model="formData.username" clearable :placeholder="$t('请输入正确的账号')">
+            <van-field v-model="formData.username" clearable :maxlength="30" :placeholder="$t('请输入正确的账号')">
             </van-field>
           </div>
         </van-cell-group>
@@ -70,13 +70,30 @@
         </van-cell-group>
 
         <van-cell-group inset>
-          <div class="form-item">
+          <!-- <div class="form-item">
             <div class="form-label">{{ $t('密码') }}</div>
             <van-field v-model="formData.password" type="password" :placeholder="$t('请输入正确密码')" />
-          </div>
+          </div> -->
+          
           <div class="form-item">
+            <div class="form-label">{{ $t('密码') }}</div>
+            <van-field v-model="formData.password" :type="formData.eyePwd ? 'password' : 'text'" clearable :placeholder="$t('请输入正确密码')" >
+              <template #right-icon>
+                <van-icon class="iconfont" class-prefix='icon' :name="formData.eyePwd ? 'eyeclose-fill' : 'eye-fill'" size="20" @click="formData.eyePwd = !formData.eyePwd"/>
+              </template>
+            </van-field>
+          </div>
+          <!-- <div class="form-item">
             <div class="form-label">{{ $t('确认密码') }}</div>
             <van-field v-model="formData.rePassword" type="password" :placeholder="$t('请再次输入密码')" />
+          </div> -->
+          <div class="form-item">
+            <div class="form-label">{{ $t('确认密码') }}</div>
+            <van-field v-model="formData.rePassword" :type="formData.eyeRePwd ? 'password' : 'text'" clearable :placeholder="$t('请再次输入密码')" >
+              <template #right-icon>
+                <van-icon class="iconfont" class-prefix='icon' :name="formData.eyeRePwd ? 'eyeclose-fill' : 'eye-fill'" size="20" @click="formData.eyeRePwd = !formData.eyeRePwd"/>
+              </template>
+            </van-field>
           </div>
           <div class="form-item">
             <div class="form-label">{{ $t('邀请码') }}</div>
@@ -141,6 +158,8 @@ const formData = reactive({
   verifEmailCode: '',
   password: '',
   rePassword: '',
+  eyePwd: true,
+  eyeRePwd: true,
   agentCode: '',
   checkMode: '3',
 })
@@ -150,7 +169,7 @@ const codePhoneLoading = ref(false)
 const codeEmailLoading = ref(false)
 // const btnLoading = ref(false)
 const showCodePicker = ref(false)
-const pickerCodeValue = ref(['+86'])
+const pickerCodeValue = ref(['+1'])
 const phoneTimer = ref(null)
 const phoneTime = ref(60)
 const emailTimer = ref(null)
@@ -173,6 +192,7 @@ const onConfirmCode = ({ selectedValues, selectedOptions }) => {
 
 const handleTab = (tab) => {
   selTab.value = tab
+  formData.password = ''
 }
 
 const sendPhoneCode = () => {
@@ -252,14 +272,14 @@ function handleSubmit() {
       showToast(t('请输入账号'));
       return
     }
-    if (formData.username.trim().length < 5) {
+    if (formData.username.trim().length < 6) {
       showToast(t('请输入正确的账号'));
       return
     }
 
     params = {
-      username: formData.username,
-      password: formData.password,
+      username: formData.username.trim(),
+      password: formData.password.trim(),
       type: 3
     }
   }
@@ -292,7 +312,7 @@ function handleSubmit() {
       return
     }
     params = {
-      email: formData.email,
+      email: formData.email.trim(),
       verifCode: formData.verifEmailCode,
       type: 2
     }
@@ -307,7 +327,7 @@ function handleSubmit() {
     return
   }
   if(formData.password.trim() !== formData.rePassword.trim()) {
-    showToast(t('两次密码输入不一致'));
+    showToast(t('两次输入密码不一致'));
     return
   }
   if(formData.agentCode.trim() == '') {
@@ -316,8 +336,8 @@ function handleSubmit() {
   }
   params = {
     ...params,
-    password: formData.password,
-    rePassword: formData.rePassword,
+    password: formData.password.trim(),
+    rePassword: formData.rePassword.trim(),
     agentCode: formData.agentCode,
     // checkMode: formData.checkMode,
     checkMode: '2'

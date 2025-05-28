@@ -12,7 +12,7 @@
   <div class="list-item" v-for="item in listData" :key="item.id">
     <div class="item">
       <div class="left">{{ $t('订单号') }}</div>
-      <div class="right">{{ item.order_no }}</div>
+      <div class="right" @click="copyText(item.order_no)">{{ item.order_no }} <van-icon class="iconfont primary-color ml-5" class-prefix='icon' name='copy' size="16"/></div>
     </div>
     <div class="item">
       <div class="left">{{ $t('充值金额') }}</div>
@@ -32,7 +32,7 @@
     </div>
     <div class="item border-t-grey pt-10" v-if="item.state == 2">
       <div class="left">{{ $t('失败原因') }}</div>
-      <div class="right">{{ item.failure_msg }}</div>
+      <div class="right">{{ item.failureMsg }}</div>
     </div>
   </div>
 
@@ -43,7 +43,7 @@
 </template>
 <script setup>
 import { ref, computed, reactive, onMounted } from 'vue'
-import { navigateTo, navigateBack, smartToFixed } from '@/utils'
+import { navigateTo, copyText, smartToFixed } from '@/utils'
 import {useRouter} from "vue-router"
 import { apiRechargePagelist } from '@/api/wallet'
 import EmptyComp from '@/components/empty/index.vue'

@@ -85,35 +85,35 @@ const formData = reactive({
 
 function handleSubmit() {
   if(formData.password.trim() == '') {
-    showToast('请输入旧密码')
+    showToast(t('请输入旧密码'))
     return
   }
   if(formData.newPassword.trim() == '') {
-    showToast('请输入新密码')
+    showToast(t('请输入新密码'))
     return
   }
   if(formData.reNewPassword.trim() == '') {
-    showToast('请再次输入新密码')
+    showToast(t('请再次输入新密码'))
     return
   }
   
   if(formData.newPassword.trim() == formData.password.trim()) {
-    showToast('新密码与旧密码不能一致')
+    showToast(t('新密码与旧密码不能一致'))
     return
   }
   if(formData.newPassword.trim() != formData.reNewPassword.trim()) {
-    showToast('两次输入密码不一致')
+    showToast(t('两次输入密码不一致'))
     return
   }
 
   const params = {
-    password: formData.password,
-    newPassword: formData.newPassword
+    password: formData.password.trim(),
+    newPassword: formData.newPassword.trim()
   }
 
   isLoading.value = true
   apiUserModifyPwd(params).then(res => {
-    showSuccessToast('修改成功')
+    showSuccessToast(t('修改成功'))
     userStore.layout()
     // setTimeout(() => {
     //   router.go(-1)

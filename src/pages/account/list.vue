@@ -65,7 +65,7 @@ function handleDel(item) {
 
 function bindAddress() {
   if(userInfo.value?.withdrawAddress) {
-    showToast('最多可添加一个钱包地址')
+    showToast(t('最多可添加一个钱包地址'))
     return
   }
   navigateTo('/bindAccount')

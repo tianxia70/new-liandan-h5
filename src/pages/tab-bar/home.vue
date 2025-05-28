@@ -30,7 +30,7 @@
         <div class="tit">{{ $t('钱包余额') }}</div>
         <div class="flex justify-between items-center">
           <div class="money" v-if="showEye">
-            ${{ balance?.usdtMoney || 0 }}
+            ${{ smartToFixed(balance?.usdtMoney || 0) }}
           </div>
           <div class="money" v-else>
             $******

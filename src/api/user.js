@@ -68,6 +68,9 @@ export const apiUserMoneyLogList = (params) => {
     return request({
         url: "/api/user/pageListMoneyLog",
         method: "get",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
         params
     })
 };

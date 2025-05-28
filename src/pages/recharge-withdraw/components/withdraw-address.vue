@@ -1,6 +1,6 @@
 <template>
 <div class="withdraw-address"> 
-  <van-cell-group inset>
+  <van-cell-group inset v-if="openCfg?.openWithdrawAddressBinding">
     <van-field
       is-link
       readonly
@@ -17,11 +17,17 @@
       </div>
     </div>
   </van-cell-group>
+  <van-cell-group inset v-else>
+    <div class="withdraw-input">
+      <div class="primary-color w-150">{{ $t('提现地址') }}</div>
+      <van-field v-model="addressVal" type="number" :placeholder="$t('请输入提现地址')" clearable />
+    </div>
+  </van-cell-group>
 
   <div class="pt-20">
     <van-cell-group inset>
       <div class="withdraw-input">
-        <div class="primary-color">{{ $t('提现金额') }}($)</div>
+        <div class="primary-color w-150">{{ $t('提现金额') }}($)</div>
         <van-field v-model="amount" type="number" :placeholder="$t('请输入提现金额')" clearable />
       </div>
     </van-cell-group>
@@ -68,7 +74,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from "vue-i18n";
-import { navigateTo, navigateBack, hideChainNum, preciseSub, preciseMul } from '@/utils'
+import { navigateTo, navigateBack, hideChainNum, preciseSub, preciseMul, copyText } from '@/utils'
 import {useRouter} from "vue-router"
 import PasswordDialog from '@/components/password-dialog/index.vue'
 
@@ -85,8 +91,9 @@ const router = useRouter(); // 获取路由实例
 const showAddressDialog = ref(false)
 const isLoading = ref(false)
 const amount = ref()
+const openCfg = ref({})
 const upValue = ref([])
-const sessionToken = ref('')
+const addressVal = ref('')
 
 const showPwd = ref(false)
 const withdrawFee = ref(0)
@@ -150,6 +157,14 @@ function getCfg() {
       ...res
     }
   })
+
+  // 获取提现配置信息
+  apiWithdrawOpen({}).then(res => {
+    openCfg.value = {...res}
+    if(!res?.openWithdrawAddressBinding || res?.openWithdrawAddressBinding == 0) {
+      addressVal.value = res?.existWithdrawAddress || ''
+    }
+  })
 }
 
 
@@ -174,9 +189,17 @@ function handleSubmit() {
   //   return
   // }
 
-  if(!selBlockChain.value?.address) {
-    showToast(t('请选择钱包地址'));
-    return
+  if(openCfg.value?.openWithdrawAddressBinding) {
+    if(!selBlockChain.value?.address) {
+      showToast(t('请选择钱包地址'));
+      return
+    }
+  } else {
+    if(!addressVal.value) {
+      showToast(t('请输入提现地址'));
+      return
+    }
+
   }
 
   showPwd.value = true
@@ -193,13 +216,13 @@ function tixianDone(pwd) {
     forbidClick: true,
     loadingType: 'spinner',
   });
-  apiWithdrawOpen({}).then(res => {
-    if(res?.session_token) {
+  // apiWithdrawOpen({}).then(res => {
+  //   if(res?.session_token) {
        const params = {
-        'from': selBlockChain.value?.address,
+        'from': openCfg.value?.openWithdrawAddressBinding ? selBlockChain.value?.address : addressVal.value,
         'channel': 'USDT',
         'safeword': pwd,
-        'session_token': res.session_token,
+        'session_token': openCfg.value?.session_token || '',
         'amount': amount.value,
         // 'blockchain_name': selBlockChain.value?.blockchainName,
         // 'coin': selBlockChain.value?.coin,
@@ -219,11 +242,11 @@ function tixianDone(pwd) {
         isLoading.value = false
         closeToast()
       })
-    }
-  }).catch(() => {
-    isLoading.value = false
-    closeToast()
-  })
+    // }
+  // }).catch(() => {
+  //   isLoading.value = false
+  //   closeToast()
+  // })
 }
 
 </script>

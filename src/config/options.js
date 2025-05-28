@@ -44,6 +44,4 @@ export const phoneCodeColumns = [
     { label: 'United States', value: '+1', zh: '美国' }
 ];
 
-// export const chainImgs = {
-//     'BTC': ''
-// }
+export const chainFilter = ['USDT', 'USDC']

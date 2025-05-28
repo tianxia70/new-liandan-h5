@@ -11,7 +11,7 @@
   <div class="page-body">
     <div class="login-navbar">
       <div></div>
-      <div class="lang-icon iconfont icon-earth" @click="goLangFn"></div>
+      <div class="lang-icon iconfont icon-earth" @click="navigateTo('/language')"></div>
     </div>
     <div class="login-header">
       <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
@@ -30,13 +30,13 @@
         <van-cell-group inset v-if="selTab == 'username'">
           <div class="form-item">
             <div class="form-label">{{ $t('账号') }}</div>
-            <van-field v-model="formData.username" clearable :placeholder="$t('请输入账号')">
+            <van-field v-model="formData.username" :maxlength="30" clearable :placeholder="$t('请输入账号')">
             </van-field>
           </div>
-          <div class="form-item">
+          <!-- <div class="form-item">
             <div class="form-label">{{ $t('密码') }}</div>
             <van-field v-model="formData.password" type="password" clearable :placeholder="$t('请输入 6-12 位由数字或字母组成的密码')" />
-          </div>
+          </div> -->
         </van-cell-group>
         <van-cell-group inset v-else-if="selTab == 'phone'">
           <div class="form-item">
@@ -47,10 +47,10 @@
               </template>
             </van-field>
           </div>
-          <div class="form-item">
+          <!-- <div class="form-item">
             <div class="form-label">{{ $t('密码') }}</div>
             <van-field v-model="formData.password" type="password" clearable :placeholder="$t('请输入 6-12 位由数字或字母组成的密码')" />
-          </div>
+          </div> -->
           <!-- <div class="form-item">
             <div class="form-label">{{ $t('验证码') }}</div>
             <van-field v-model="formData.code" clearable :placeholder="$t('请输入验证码')" >
@@ -67,18 +67,17 @@
             <van-field v-model="formData.email" clearable :placeholder="$t('请输入邮箱')">
             </van-field>
           </div>
+        </van-cell-group>
+
+        <van-cell-group>
           <div class="form-item">
             <div class="form-label">{{ $t('密码') }}</div>
-            <van-field v-model="formData.password" type="password" clearable :placeholder="$t('请输入 6-12 位由数字或字母组成的密码')" />
-          </div>
-          <!-- <div class="form-item">
-            <div class="form-label">{{ $t('验证码') }}</div>
-            <van-field v-model="formData.code" clearable :placeholder="$t('请输入验证码')" >
-              <template #button>
-                <van-button size="small" type="primary">{{ $t('发送验证码') }}</van-button>
+            <van-field v-model="formData.password" :type="formData.eyePwd ? 'password' : 'text'" clearable :placeholder="$t('请输入 6-12 位由数字或字母组成的密码')" >
+              <template #right-icon>
+                <van-icon class="iconfont" class-prefix='icon' :name="formData.eyePwd ? 'eyeclose-fill' : 'eye-fill'" size="20" @click="formData.eyePwd = !formData.eyePwd"/>
               </template>
             </van-field>
-          </div> -->
+          </div>
         </van-cell-group>
       </div>
 
@@ -133,13 +132,14 @@ const formData = reactive({
   phone: '',
   code: '',
   email: '',
-  password: ''
+  password: '',
+  eyePwd: true
 })
 const checked = ref(false)
 
 // const btnLoading = ref(false)
 const showCodePicker = ref(false)
-const pickerCodeValue = ref(['+86'])
+const pickerCodeValue = ref(['+1'])
 
 const codeColumns = computed(() => {
   return phoneCodeColumns.map(item => {
@@ -176,6 +176,7 @@ const onConfirmCode = ({ selectedValues, selectedOptions }) => {
 
 const handleTab = (tab) => {
   selTab.value = tab
+  formData.password = ''
   setRemember()
 }
 
@@ -196,6 +197,10 @@ function handleSubmit() {
   if(selTab.value == 'username') {
     if(formData.username.trim() == '') {
       showToast(t('请输入账号'));
+      return
+    }
+    if (formData.username.trim().length < 6) {
+      showToast(t('请输入正确的账号'));
       return
     }
     // if(formData.password.trim() == '') {
@@ -250,7 +255,7 @@ function handleSubmit() {
 
   params = {
     ...params,
-    password: formData.password,
+    password: formData.password.trim(),
   }
   // btnLoading.value = true
   showLoadingToast({
@@ -266,7 +271,8 @@ function handleSubmit() {
         const reJson = getStorage('loginRemember') || {}
         reJson[selTab.value] = {
           name: formData[selTab.value] || '',
-          password: formData.password,
+          // password: formData.password,
+          password: '',
         }
         setStorage('loginRemember', reJson)
       }

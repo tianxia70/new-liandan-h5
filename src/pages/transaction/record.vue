@@ -26,8 +26,8 @@
             </div>
           </div>
           <div class="list-right align-right">
-            <div class="acount" v-if="item.amount > 0">{{ item.amount || 0 }}</div>
-            <div class="acount red" v-else>{{ item.amount || 0 }}</div>
+            <div class="acount" v-if="item.amount > 0">+${{ smartToFixed(item.amount || 0) }}</div>
+            <div class="acount red" v-else>-${{ smartToFixed(0-item.amount || 0) }}</div>
             <div class="time">{{ item?.createTimeStr }}</div>
           </div>
         </div>
@@ -46,7 +46,7 @@
 import { computed, ref, reactive } from 'vue'
 import { useI18n } from "vue-i18n";
 import {useRouter} from "vue-router"
-import { navigateTo, navigateBack } from '@/utils';
+import { navigateTo, navigateBack, smartToFixed } from '@/utils';
 import { primaryColor } from '@/utils/theme'
 import { apiUserMoneyLogList } from '@/api/user'
 import BalanceCard from '@/components/balance-card/index.vue'

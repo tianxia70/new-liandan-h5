@@ -29,9 +29,21 @@
 
   <div>
     <van-cell-group inset>
-      <div class="recharge-input">
-        <div class="primary-color">{{ $t('充值金额') }}($)</div>
-        <van-field v-model="amount" type="number" :placeholder="$t('请输入充值金额')" clearable />
+      <div class="recharge-input border-b-grey mb-5">
+        <div class="primary-color w-150">{{ $t('充值金额') }}($)</div>
+        <van-field v-model="amount" type="number" :placeholder="$t('请输入充值金额')" clearable @update:model-value="handleInput"/>
+      </div>
+      <div class="desc-item" >
+        <div class="tit">{{ $t('当前汇率') }}</div>
+        <div class="tit">1 : {{smartToFixed(selBlockChain?.fee || 0)}}</div>
+      </div>
+      <div class="desc-item">
+        <div class="tit">{{ $t('充值限额') }}</div>
+        <div class="tit">{{smartToFixed(selBlockChain?.recharge_limit_min || 0)}} - {{smartToFixed(selBlockChain?.recharge_limit_max || 0)}} USDT</div>
+      </div>
+      <div class="desc-item money">
+        <div class="tit">{{ $t('预计到账') }}</div>
+        <div class="tit primary-color font-20">{{smartToFixed(yujiMoney || 0)}} USDT</div>
       </div>
     </van-cell-group>
   </div>
@@ -76,10 +88,11 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from "vue-i18n";
-import { copyText, navigateBack, hideChainNum } from '@/utils'
-import {useRouter} from "vue-router"
-import { useUserStore, useWalletStore } from '@/store'
+import { copyText, preciseMul, hideChainNum, smartToFixed } from '@/utils'
+import { useRouter } from "vue-router"
+import { useWalletStore } from '@/store'
 import { uploadImg } from '@/api/user'
+import { chainFilter } from '@/config/options'
 import { apiRechargeFee, apiRechargeLimitConfig, apiRechargeOpen, apiRechargeApply } from '@/api/wallet'
 import { showToast, showSuccessToast } from 'vant';
 
@@ -108,7 +121,11 @@ const addressOpt = computed(() => {
       selcted: selBlockChain.value?.id == item.id ? true : false
       // color: (selBlockChain.value == item.key || (selBlockChain.value =='' && item.key == '')) ? primaryColor : ''
     }
-  })
+  }).filter(item => chainFilter.includes(item.coin))
+})
+
+const yujiMoney = computed(() => {
+  return preciseMul((selBlockChain.value?.fee || 0), amount.value) || 0
 })
 
 onMounted(async () => {
@@ -121,12 +138,15 @@ function getFee() {
   apiRechargeFee({}).then(res => {
 
   })
-  apiRechargeLimitConfig({}).then(res => {
-    rechargeCfg.value = {
-      ...rechargeCfg.value,
-      ...res
-    }
-  })
+  
+  // apiRechargeOpen({}).then(res => {
+  // })
+  // apiRechargeLimitConfig({}).then(res => {
+  //   rechargeCfg.value = {
+  //     ...rechargeCfg.value,
+  //     ...res
+  //   }
+  // })
 }
 
 function afterRead(file) {
@@ -153,6 +173,11 @@ function handleAmount(money) {
   amount.value = money
 }
 
+function handleInput(money) {
+  selAmount.value = money
+  // console.log('money', money)
+}
+
 function onSelect(event) {
   // console.log('event', event)
   selBlockChain.value = { ...event }
@@ -161,22 +186,23 @@ function onSelect(event) {
 }
 
 function handleSubmit() {
-  if (amount.value === '') {
+  // console.log('amount', amount.value)
+  if (amount.value == '') {
     showToast(t('请输入充值金额'));
     return
   }
-  if (Number(amount.value) < rechargeCfg.value.rechargeAmountMin) {
-    showToast(t('充值价值不得小于最小限额') + rechargeCfg.value.rechargeAmountMin + ' USDT')
+  if (Number(amount.value) < selBlockChain.value.recharge_limit_max) {
+    showToast(t('充值价值不得小于最小限额') + ' ' + selBlockChain.value.recharge_limit_max + ' USDT')
     return
   }
-  if (Number(amount.value) > rechargeCfg.value.rechargeAmountMax) {
-    showToast(t('充值价值不得大于最大限额') + rechargeCfg.value.rechargeAmountMax + ' USDT')
+  if (Number(amount.value) > selBlockChain.value.recharge_limit_max) {
+    showToast(t('充值价值不得大于最大限额') + ' ' + selBlockChain.value.recharge_limit_max + ' USDT')
     return
   }
-  // if (upImg.value === '') {
-  //   showToast(t('请上传图片'));
-  //   return
-  // }
+  if (upImg.value === '') {
+    showToast(t('请上传交易凭证'));
+    return
+  }
 
   if(!selBlockChain.value?.address) {
     showToast(t('请选择钱包地址'));
@@ -289,6 +315,18 @@ function handleSubmit() {
       text-align: right;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+
+  .desc-item {
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+
+    &.money {
+      padding-bottom: 20px;
     }
   }
 }  

@@ -3,6 +3,7 @@ import { showNotify } from 'vant'
 import { i18n } from "@/i18n";
 import Config from "@/config";
 import { closeToast, showLoadingToast, showToast } from 'vant'
+import { useUserStore } from '@/store'
 import router from '@/router/router'
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -66,6 +67,7 @@ request.interceptors.response.use(res => { // 200开头的
             closeToast()
         }
         const {errCode, data, msg} = res.data
+        const userStore = useUserStore()
         switch (Number(errCode) * 1) {
             case 200000:
                 // return res.config?.isKefu ? res.data : Promise.resolve(data || {})
@@ -75,13 +77,15 @@ request.interceptors.response.use(res => { // 200开头的
                 showNotify({type: 'danger', message: i18n.global.t(msg) || msg});
                 return Promise.reject(res.data || res.msg)
             case 400003:
-                localStorage.removeItem('token')
-                router.replace('/login')
+                // localStorage.removeItem('token')
+                // router.replace('/login')
+                userStore.layout()
                 // window.location = '/#/login'
                 return
             case 403:
-                localStorage.removeItem('token')
-                router.replace('/login')
+                // localStorage.removeItem('token')
+                // router.replace('/login')
+                userStore.layout()
                 // window.location = '/#/login'
                 return
             default:

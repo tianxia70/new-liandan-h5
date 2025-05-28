@@ -163,7 +163,7 @@ export const apiWithdrawApply = (data) => {
     return request({
         url: "/api/user/withdraw/apply",
         method: "post",
-        // isLoading: true,
+        loading: true,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

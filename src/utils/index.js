@@ -39,7 +39,7 @@ export const navigateBack = () => {
 export async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
-    showToast("复制成功");
+    showToast(i18n.global.t("复制成功"));
   } catch (err) {
     // // 降级到传统方法
     // const fallbackSuccess = fallbackCopyText(text);

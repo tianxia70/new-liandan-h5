@@ -2,7 +2,7 @@
 <div class="page-container bindaccount-container">
 <van-nav-bar class="page-navbar" :title="$t('新增钱包地址')" left-arrow  @click-left="navigateBack"></van-nav-bar>
 <div class="page-body page-scroll">
-  <van-form @submit="onSubmit">
+  <van-form>
     <div class="p-20"> 
     <van-cell-group inset>
       <div class="py-10">
@@ -56,7 +56,7 @@ import { primaryColor } from '@/utils/theme'
 import {useRouter} from "vue-router"
 import { useUserStore, useWalletStore } from '@/store'
 import { apiBindWithdrawAddress } from '@/api/wallet'
-import { showSuccessToast } from 'vant';
+import { showSuccessToast, showToast } from 'vant';
 
 const walletStore = useWalletStore()
 
@@ -95,15 +95,24 @@ function onSelect(event) {
 
 function onSubmit() {
 
+  if(!selBlockChain.value?.coin || selBlockChain.value?.coin?.trim() == '') {
+    showToast(t('请选择钱包协议'))
+    return
+  }
+  if(!address.value || address.value.trim() == '') {
+    showToast(t('请输入钱包地址'))
+    return
+  }
+
   const params = {
     blockchain_name: selBlockChain.value.blockchainName,
     coin: selBlockChain.value.coin,
     channel_address: address.value,
   }
 
-  console.log('submit', params, selBlockChain.value);
+  // console.log('submit', params, selBlockChain.value);
   apiBindWithdrawAddress(params).then(res => {
-    showSuccessToast($t('添加成功'))
+    showSuccessToast(t('添加成功'))
     setTimeout(() => {
       router.go(-1)
     }, 2000)
