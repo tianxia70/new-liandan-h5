@@ -280,7 +280,7 @@ export default {
     '新资金密码': 'Mật khẩu tài khoản mới',
     '请输入6位数字新密码': 'Vui lòng nhập mật khẩu 6 chữ số mới',
     '再次输入新资金密码': 'Nhập lại mật khẩu tài khoản mới',
-    '再次输入6位数字新密码': 'Nhập lại mật khẩu 6 chữ số mới',
+    '请再次输入6位数字新密码': 'Nhập lại mật khẩu 6 chữ số mới',
     '收货地址': 'Địa chỉ nhận hàng',
     '收货地址管理': 'Quản lý địa chỉ nhận hàng',
     '编辑': 'Chỉnh sửa',

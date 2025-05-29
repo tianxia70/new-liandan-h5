@@ -15,7 +15,7 @@
     </div>
     <div class="login-header">
       <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
-      <div class="login-title">DEV_TITLE</div>
+      <div class="login-title">{{ APP_NAME }}</div>
       <div class="login-welcome">{{ $t('欢迎您') }}</div>
     </div>
 
@@ -111,6 +111,7 @@
 </div>
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { closeToast, showLoadingToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'

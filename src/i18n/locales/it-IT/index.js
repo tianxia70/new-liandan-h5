@@ -281,7 +281,7 @@ export default {
     '新资金密码': 'Nuova password di fondo',
     '请输入6位数字新密码': 'Inserisci una nuova password di 6 cifre',
     '再次输入新资金密码': 'Inserisci di nuovo la nuova password di fondo',
-    '再次输入6位数字新密码': 'Inserisci di nuovo la nuova password a 6 cifre',
+    '请再次输入6位数字新密码': 'Inserisci di nuovo la nuova password a 6 cifre',
     '收货地址': 'Indirizzo di consegna',
     '收货地址管理': "Gestione dell'indirizzo di consegna",
     '编辑': 'Modifica',

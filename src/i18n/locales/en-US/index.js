@@ -77,6 +77,7 @@ export default {
 	'您还没有设置资金密码': "You have not set a fund password.",
 	'请输入提现金额': 'Please enter the withdrawal amount.',
 	'提现地址': 'Withdraw address',
+  '请选择提现地址': 'Please select the withdrawal address',
 	'请输入提现地址': 'Please enter the withdrawal address',
 
   'recharge': 'Recharge',
@@ -108,6 +109,7 @@ export default {
   '活动提示1': 'Tip: Complete to get free first task (worth 10,000 INR). Non-withdrawable, only for first task deposit.',
   '活动提示2': 'Tip: Activate all cities? Will consume first free task reward (worth 10,000 INR).',
   '活动提示3': 'Tip: Deposit locks task amount, returned after completion.',
+	'只能购买比当前VIP更高的等级': 'You can only buy higher levels than your current VIP',
 
   '充值': 'Deposit',
   '提现': 'Withdraw',
@@ -381,7 +383,7 @@ export default {
   '新资金密码': 'New Fund Password',
   '请输入6位数字新密码': 'Enter 6-digit new password',
   '再次输入新资金密码': 'Re-enter new fund password',
-  '再次输入6位数字新密码': 'Re-enter 6-digit new password',
+  '请再次输入6位数字新密码': 'Re-enter 6-digit new password',
   '收货地址': 'Shipping Address',
   '收货地址管理': 'Address Management',
   '编辑': 'Edit',

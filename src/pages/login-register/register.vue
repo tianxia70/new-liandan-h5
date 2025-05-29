@@ -15,7 +15,7 @@
     </div>
     <div class="login-header">
       <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
-      <div class="login-title">DEV_TITLE</div>
+      <div class="login-title">{{ APP_NAME }}</div>
       <div class="login-welcome">{{ $t('欢迎您') }}</div>
     </div>
 
@@ -135,6 +135,7 @@
 </div>
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { ref, reactive, computed, onBeforeUnmount } from 'vue'
 import { showLoadingToast, closeToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
@@ -214,6 +215,9 @@ const sendPhoneCode = () => {
     console.log('timer.value', phoneTime.value)
   }, 1000)
 
+  const phoneCode = pickerCodeValue.value?.length ? pickerCodeValue.value[0] : ''
+console.log('phoneCode', phoneCode)
+// return phoneCode.substring(1) + ' ' + 
   apiSendCodeNoneLogin({target: formData.phone}).then(res => {
   }).catch(() => {
     codePhoneLoading.value = false
@@ -241,7 +245,7 @@ const sendEmailCode = () => {
     console.log('timer.value', emailTime.value)
   }, 1000)
 
-  apiSendCodeNoneLogin({target: formData.phone}).then(res => {
+  apiSendCodeNoneLogin({target: formData.email}).then(res => {
   }).catch(() => {
     codeEmailLoading.value = false
     clearInterval(emailTimer.value)
@@ -339,8 +343,8 @@ function handleSubmit() {
     password: formData.password.trim(),
     rePassword: formData.rePassword.trim(),
     agentCode: formData.agentCode,
-    // checkMode: formData.checkMode,
-    checkMode: '2'
+    checkMode: formData.checkMode,
+    // checkMode: '2'
   }
 
   // btnLoading.value = true

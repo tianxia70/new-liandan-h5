@@ -4,7 +4,7 @@
     <div class="welcome-box">
       <div class="login-header">
         <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
-        <div class="login-title">DEV_TITLE</div>
+        <div class="login-title">{{ APP_NAME }}</div>
         <div class="login-welcome">{{ $t('欢迎页文本') }}</div>
       </div>
 
@@ -22,6 +22,7 @@
 </template>
 <script setup>
 import { redirectTo } from '@/utils'
+import { APP_NAME } from '@/config'
 
 
 </script>

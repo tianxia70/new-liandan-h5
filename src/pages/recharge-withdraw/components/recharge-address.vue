@@ -10,8 +10,8 @@
       />
 
       <div class="address-selinfo" v-if="selBlockChain?.id">
-        <img class="img" :src="selBlockChain.img" alt="">
-        <div class="flex-shrink pl-10">
+        <!-- <img class="img" :src="selBlockChain.img" alt=""> -->
+        <div class="flex-shrink ">
           <div class="title">{{ selBlockChain.coin + '-' + selBlockChain.blockchainName }}</div>
           <!-- hideChainNum(selBlockChain.address) -->
           <div class="desc text-warp" @click="copyText(selBlockChain.address)">{{ selBlockChain.address }} <van-icon class="iconfont primary-color ml-5" class-prefix='icon' name='copy' size="16"/></div>
@@ -30,8 +30,13 @@
   <div>
     <van-cell-group inset>
       <div class="recharge-input border-b-grey mb-5">
-        <div class="primary-color w-150">{{ $t('充值金额') }}($)</div>
-        <van-field v-model="amount" type="number" :placeholder="$t('请输入充值金额')" clearable @update:model-value="handleInput"/>
+        <div class="primary-color w-150">{{ $t('充值金额') }}</div>
+        <van-field v-model="amount" type="number" :placeholder="$t('请输入充值金额')" clearable @update:model-value="handleInput">
+          <template #button>
+            <div>{{ selBlockChain?.coin }}</div>
+            <!-- <van-button size="smal/l" type="primary" @click="handleAll">{{ $t('全部') }}</van-button> -->
+          </template>
+        </van-field>
       </div>
       <div class="desc-item" >
         <div class="tit">{{ $t('当前汇率') }}</div>
@@ -67,7 +72,7 @@
 
   <div class="py-30">
 
-    <van-button block round type="primary" native-type="submit" @click="handleSubmit">
+    <van-button block round type="primary" :loading="isLoading" @click="handleSubmit">
       {{ $t('提交') }}
     </van-button>
   </div>
@@ -121,7 +126,8 @@ const addressOpt = computed(() => {
       selcted: selBlockChain.value?.id == item.id ? true : false
       // color: (selBlockChain.value == item.key || (selBlockChain.value =='' && item.key == '')) ? primaryColor : ''
     }
-  }).filter(item => chainFilter.includes(item.coin))
+  })
+  // .filter(item => chainFilter.includes(item.coin))
 })
 
 const yujiMoney = computed(() => {
@@ -191,8 +197,8 @@ function handleSubmit() {
     showToast(t('请输入充值金额'));
     return
   }
-  if (Number(amount.value) < selBlockChain.value.recharge_limit_max) {
-    showToast(t('充值价值不得小于最小限额') + ' ' + selBlockChain.value.recharge_limit_max + ' USDT')
+  if (Number(amount.value) < selBlockChain.value.recharge_limit_min) {
+    showToast(t('充值价值不得小于最小限额') + ' ' + selBlockChain.value.recharge_limit_min + ' USDT')
     return
   }
   if (Number(amount.value) > selBlockChain.value.recharge_limit_max) {

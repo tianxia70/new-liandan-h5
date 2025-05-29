@@ -281,7 +281,7 @@ export default {
     '新资金密码': 'Nouveau mot de passe du fonds',
     '请输入6位数字新密码': 'Veuillez entrer un nouveau mot de passe à 6 chiffres',
     '再次输入新资金密码': 'Veuillez entrer à nouveau le nouveau mot de passe du fonds',
-    '再次输入6位数字新密码': 'Veuillez entrer à nouveau le nouveau mot de passe à 6 chiffres',
+    '请再次输入6位数字新密码': 'Veuillez entrer à nouveau le nouveau mot de passe à 6 chiffres',
     '收货地址': 'Adresse de livraison',
     '收货地址管理': 'Gestion des adresses de livraison',
     '编辑': 'Éditer',

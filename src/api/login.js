@@ -29,6 +29,19 @@ export const apiSendCodeNoneLogin = (data) => {
     return request({
         url: "/api/user/sendCaptchCodeNoneLogin",
         method: "post",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data
+    })
+};
+
+
+// 已登录用户发送验证码
+export const apiSendCodeLogin = (data) => {
+    return request({
+        url: "/api/user/sendCaptchCode",
+        method: "post",
         isLoading: true,
         data
     })

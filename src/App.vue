@@ -197,6 +197,7 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
   if (chatIsInit) {
     return
   }
+  console.log(11111)
   const title = t('在线客服')
   chatIsInit = true
   const extData = {

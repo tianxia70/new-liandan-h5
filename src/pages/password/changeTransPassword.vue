@@ -12,6 +12,7 @@
         <van-field
           v-model="formData.password"
           name="password"
+          :maxlength="6"
           :type="formData.eyePwd ? 'password' : 'text'"
           :placeholder="$t('请输入6位数字旧密码')"
           clearable
@@ -26,6 +27,7 @@
         <van-field
           v-model="formData.newPassword"
           name="newPassword"
+          :maxlength="6"
           :type="formData.eyeNewPwd ? 'password' : 'text'"
           :placeholder="$t('请输入6位数字新密码')"
           clearable
@@ -40,8 +42,9 @@
         <van-field
           v-model="formData.reNewPassword"
           name="reNewPassword"
+          :maxlength="6"
           :type="formData.eyeReNewPwd ? 'password' : 'text'"
-          :placeholder="$t('再次输入6位数字新密码')"
+          :placeholder="$t('请再次输入6位数字新密码')"
           clearable
         >
           <template #right-icon>
@@ -63,6 +66,7 @@
         <van-field
           v-model="formData.password"
           name="password"
+          :maxlength="6"
           :type="formData.eyePwd ? 'password' : 'text'"
           :placeholder="$t('请输入6位数字密码')"
           clearable
@@ -77,6 +81,7 @@
         <van-field
           v-model="formData.newPassword"
           name="newPassword"
+          :maxlength="6"
           :type="formData.eyeNewPwd ? 'password' : 'text'"
           :placeholder="$t('请再次输入6位数字密码')"
           clearable
@@ -102,7 +107,7 @@ import { computed, ref, reactive } from 'vue'
 import { useI18n } from "vue-i18n"
 import {useRouter} from "vue-router"
 import { useUserStore } from '@/store'
-import { navigateTo, navigateBack } from '@/utils';
+import { navigateTo, navigateBack, isNumeric } from '@/utils';
 import { apiUserSetTransPwd, apiUserModifyTransPwd } from '@/api/login'
 import { showSuccessToast, showToast } from 'vant';
 const { t } = useI18n();
@@ -125,12 +130,12 @@ const userInfo = computed(() => {
 
 
 function handleSet() {
-  if(formData.password.trim() == '' || formData.password.trim().length != 6) {
+  if(!isNumeric(formData.password.trim()) || formData.password.trim().length != 6) {
     showToast(t('请输入6位数数字密码'))
     return
   }
 
-  if(formData.newPassword.trim() == '' || formData.newPassword.trim().length != 6) {
+  if(!isNumeric(formData.newPassword.trim()) || formData.newPassword.trim().length != 6) {
     showToast(t('请再次输入6位数字密码'))
     return
   }
@@ -142,7 +147,7 @@ function handleSet() {
 
   isLoading.value = true
   apiUserSetTransPwd({securityCode: formData.password}).then(res => {
-    showSuccessToast('成功')
+    showSuccessToast(t('提交成功'))
     userStore.getUserInfo()
     router.go(-1)
   }).finally(() => {
@@ -151,18 +156,26 @@ function handleSet() {
 }
 
 function handleModify() {
-  if(formData.password.trim() == '' || formData.password.trim().length != 6) {
+  if(!isNumeric(formData.password.trim()) || formData.password.trim().length != 6) {
     showToast(t('请输入6位数字旧密码'))
     return
   }
 
-  if(formData.newPassword.trim() == '' || formData.newPassword.trim().length != 6) {
+  if(!isNumeric(formData.newPassword.trim())) {
+    showToast(t('请输入新密码'))
+    return
+  }
+  if(formData.newPassword.trim().length != 6) {
     showToast(t('请输入6位数字新密码'))
     return
   }
+  if(!isNumeric(formData.reNewPassword.trim())) {
+    showToast(t('请再次输入新密码'))
+    return
+  }
   
-  if(formData.reNewPassword.trim() == '' || formData.reNewPassword.trim().length != 6) {
-    showToast(t('再次输入6位数字新密码'))
+  if(formData.reNewPassword.trim().length != 6) {
+    showToast(t('请再次输入6位数字新密码'))
     return
   }
   

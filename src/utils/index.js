@@ -13,6 +13,11 @@ export function validateEmail(email) {
     return pattern.test(email);
 }
 
+
+export function isNumeric(str) {
+    return /^\d+$/.test(str);
+}
+
 export const navigateTo = (url) => {
 	router.push(url)
 }

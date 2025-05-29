@@ -27,8 +27,12 @@ function handleStart(){
   // window.location.href = 'https://chatlink.mstatik.com/widget/standalone.html?eid=868016f872a48af5e889858c85acdfe6&language=en'
   console.log('user', user)
   // enterOnlineService(user)
-  
-  im_create_iframe_client && im_create_iframe_client.open()
+  if(im_create_iframe_client) {
+    im_create_iframe_client.open()
+  } else {
+    
+  }
+  // im_create_iframe_client && im_create_iframe_client.open()
 
 }
 </script>

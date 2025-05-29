@@ -59,6 +59,7 @@ import { apiBindWithdrawAddress } from '@/api/wallet'
 import { showSuccessToast, showToast } from 'vant';
 
 const walletStore = useWalletStore()
+const userStore = useUserStore()
 
 const { t } = useI18n();
 const router = useRouter(); // 获取路由实例
@@ -113,6 +114,7 @@ function onSubmit() {
   // console.log('submit', params, selBlockChain.value);
   apiBindWithdrawAddress(params).then(res => {
     showSuccessToast(t('添加成功'))
+    userStore.getUserInfo()
     setTimeout(() => {
       router.go(-1)
     }, 2000)

@@ -281,7 +281,7 @@ export default {
     '新资金密码': 'Nuwe fonds wagwoord',
     '请输入6位数字新密码': "Voer asseblief'n 6-syfer nuwe wagwoord in",
     '再次输入新资金密码': "Voer weer'n nuwe fonds wagwoord in",
-    '再次输入6位数字新密码': "Voer weer'n 6-syfer nuwe wagwoord in",
+    '请再次输入6位数字新密码': "Voer weer'n 6-syfer nuwe wagwoord in",
     '收货地址': 'Ontvangs adres',
     '收货地址管理': 'Ontvang adresbestuur',
     '编辑': 'Redigeer',

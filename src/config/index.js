@@ -1,6 +1,7 @@
 
 export const DEFAULT_THEME = 'green'
 
+export const APP_NAME = 'DEV_TITLE'
 const ENV_DEV = 'xin.ebvsjbv.site' // dev
 //获取当前域名
 const ENV_PRO = window.location.hostname

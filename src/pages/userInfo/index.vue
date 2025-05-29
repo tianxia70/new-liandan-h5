@@ -24,8 +24,8 @@
         <van-cell :title="$t('登录密码')" is-link @click="navigateTo('/changePassword')"/>
         <van-cell :title="$t('资金密码')" is-link @click="navigateTo('/changeTransPassword')"/>
         <van-cell :title="$t('身份认证')" is-link @click="navigateTo('/authEdit')">
-          <van-tag type="success" size="medium" v-if="userInfo?.identityverif == 'true'">{{ $t('已认证') }}</van-tag>
-          <!-- <van-tag type="danger" size="medium" v-else>已通过</van-tag> -->
+          <van-tag type="success" size="medium" v-if="userInfo?.identityverif">{{ $t('已认证') }}</van-tag>
+          <!-- <van-tag type="danger" size="medium" v-else>{{ $t('未认证') }}</van-tag> -->
         </van-cell>
         
       </van-cell-group>

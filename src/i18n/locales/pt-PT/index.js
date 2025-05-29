@@ -284,7 +284,7 @@ export default {
     '新资金密码': 'Senha do fundo novo',
     '请输入6位数字新密码': 'Entre a senha de 6 dígitos novos',
     '再次输入新资金密码': 'Entre a senha fundo novo mais uma vez',
-    '再次输入6位数字新密码': 'Entre a senha de 6 dígitos novos mais uma vez',
+    '请再次输入6位数字新密码': 'Entre a senha de 6 dígitos novos mais uma vez',
     '收货地址': 'Endereço de recepção',
     '收货地址管理': 'Gere o endereço de recepção',
     '编辑': 'Edição',

@@ -311,7 +311,7 @@ function handleSubmit() {
 
   const params = {
     name: formData.name,
-    idNumber: formData.idNumber,
+    idnumber: formData.idNumber,
     nationality: formData.countryCode,
     idimg_1: imgUrl1.value,
     idimg_2: imgUrl2.value,

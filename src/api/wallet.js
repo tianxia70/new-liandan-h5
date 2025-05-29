@@ -76,7 +76,7 @@ export const apiRechargeOpen = (data) => {
     return request({
         url: "/api/user/recharge/open",
         method: "post",
-        // isLoading: true,
+        loading: true,
         data
     })
 };
@@ -86,7 +86,7 @@ export const apiRechargeApply = (data) => {
     return request({
         url: "/api/user/recharge/apply",
         method: "post",
-        // isLoading: true,
+        loading: true,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -141,6 +141,7 @@ export const apiBindWithdrawAddress = (data) => {
     return request({
         url: "/api/user/bindWithdrawAddress",
         method: "post",
+        loading: true,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

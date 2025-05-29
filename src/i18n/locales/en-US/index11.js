@@ -324,7 +324,7 @@ export default {
 	'新资金密码': 'New fund password',
 	'请输入6位数字新密码': 'Please enter a new 6-digit password',
 	'再次输入新资金密码': 'Enter the new fund password again',
-	'再次输入6位数字新密码': 'Enter the new 6-digit password again',
+	'请再次输入6位数字新密码': 'Enter the new 6-digit password again',
 	'收货地址': 'Address Setting',
 	'收货地址管理': 'Address Setting',
 	'编辑': 'Edit',

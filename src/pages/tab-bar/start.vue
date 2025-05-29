@@ -177,6 +177,7 @@ const showPwd = ref(false)
 const showPop = ref(false)
 const isLoading = ref(false)
 const curVip = computed(() => {
+  console.log('userStore.getCurVip', userStore.getCurVip)
   return userStore.getCurVip
 })
 

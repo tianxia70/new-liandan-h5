@@ -16,6 +16,7 @@
             {{ userInfo.withdrawAddress || '' }}
           </div>
         </div>
+        <EmptyComp v-else/>
       </div>
 
     <div class="p-20">
@@ -31,6 +32,8 @@
 <script setup>
 import { computed, ref, reactive, onMounted } from 'vue'
 import { useI18n } from "vue-i18n";
+
+import EmptyComp from '@/components/empty/index.vue'
 import { useTheme } from '@/utils/theme'
 // const { theme, setTheme } = useTheme()
 import {useRouter} from "vue-router"
