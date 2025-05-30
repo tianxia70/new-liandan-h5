@@ -34,8 +34,6 @@
 </template>
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { useTheme } from '@/utils/theme'
-// const { theme, setTheme } = useTheme()
 import {useRouter} from "vue-router"
 import { apiNotifiyList, apiNotifiyRead } from '@/api/user'
 import { navigateTo, navigateBack } from '@/utils';
@@ -63,21 +61,20 @@ function onRefresh() {
   getListData();
 }
 
+
 function getListData() {
   if (refreshing.value) {
     listData.value = [];
     page.pageNum = 0
   }
-
   page.pageNum += 1
   
   loading.value = true;
-  apiNotifiyList({
-    ...page
-  }).then(res => {
+  apiNotifiyList({ ...page }).then(res => {
     if(res?.list?.length) {
       listData.value = listData.value.concat(...res.list)
     }
+    // console.log('listData', listData.value)
     if (res?.list?.length < page.pageSize) {
       finished.value = true;
     }

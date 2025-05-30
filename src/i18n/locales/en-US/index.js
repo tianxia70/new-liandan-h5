@@ -52,6 +52,7 @@ export default {
   '最多可添加一个钱包地址': 'Max 1 wallet address, contact support to modify',
   '我的账户': 'My Account',
   '抢单成功': 'Order Grabbed',
+	'发送成功': 'Send successfully',
   '总金额': 'Total Amount',
   '单价': 'Unit Price',
   '开始抢单': 'Grab Order',

@@ -1,6 +1,6 @@
 <template>
 <div class="page-container login-container ">
-  <div class="page-body page-scroll">
+  <div class="page-body ">
     <div class="welcome-box">
       <div class="login-header">
         <img class="login-logo" src="../../assets/images/icon/logo.jpeg"/>
@@ -34,7 +34,8 @@ import { APP_NAME } from '@/config'
     background-image: var(--welcome-bg);
     background-repeat: no-repeat;
     background-size: 100%;
-    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
     padding-top: 60px;
   }
 

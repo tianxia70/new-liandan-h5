@@ -80,22 +80,15 @@ function handleBuy(item) {
 }
 
 function handleDone(pwd) {
-  showLoadingToast({
-    duration: 0,
-  // message: '加载中...',
-    forbidClick: true,
-    loadingType: 'spinner',
-  });
   apiUserLevelBuy({
     id: selVip.value.id,
     safeword: pwd
   }).then(res => {
-    showToast($('购买成功'))
+    showToast(t('购买成功'))
     userStore.getVipList()
     userStore.getUserInfo()
 
   }).finally(() => {
-    closeToast()
   })
 }
 

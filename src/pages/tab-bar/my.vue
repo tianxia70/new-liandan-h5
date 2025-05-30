@@ -10,7 +10,7 @@
         />
         <img class="vip" v-if="curVip?.level" :src="curVip?.iconImg" alt="" srcset="">
       </div>
-      <div class="user-name">{{ userInfo?.username || userInfo?.phone || userInfo?.email }}</div>
+      <div class="user-name three-text">{{ userInfo?.username || userInfo?.phone || userInfo?.email }}</div>
       <div class="Invitation-code " @click="copyText(userInfo?.usercode)">
         {{ $t('邀请码') }}: {{ userInfo?.usercode || '' }}
         <van-icon class="iconfont primary-color" class-prefix='icon' name='copy' size="14"/>
@@ -165,7 +165,8 @@ const handleLayout = () => {
     .user-name {
       font-size: 22px;
       font-weight: bold;
-      padding: 10px 0;
+      padding-top: 10px;
+      margin-bottom: 10px;
     }
 
     .Invitation-code {

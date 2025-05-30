@@ -55,6 +55,7 @@ export const apiUserLevelBuy = (params) => {
     return request({
         url: "/api/user/level/buy",
         method: "post",
+        loading: true,
         // headers: {
         //     'Content-Type': 'application/x-www-form-urlencoded'
         // },
@@ -98,6 +99,7 @@ export const apiUserKycApply = (data) => {
     return request({
         url: "/api/user/kyc/apply",
         method: "post",
+        loading: true,
         data
     })
 };

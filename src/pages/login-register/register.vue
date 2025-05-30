@@ -216,9 +216,10 @@ const sendPhoneCode = () => {
   }, 1000)
 
   const phoneCode = pickerCodeValue.value?.length ? pickerCodeValue.value[0] : ''
-console.log('phoneCode', phoneCode)
+  console.log('phoneCode', phoneCode)
 // return phoneCode.substring(1) + ' ' + 
   apiSendCodeNoneLogin({target: formData.phone}).then(res => {
+    showToast(t('发送成功'));
   }).catch(() => {
     codePhoneLoading.value = false
     clearInterval(phoneTimer.value)
@@ -228,7 +229,7 @@ console.log('phoneCode', phoneCode)
 
 const sendEmailCode = () => {
   if(!validateEmail(formData.email)) {
-    showToast(t('请输入正确格式的手机号'));
+    showToast(t('请输入正确的邮箱地址'));
     return
   }
 
@@ -246,6 +247,7 @@ const sendEmailCode = () => {
   }, 1000)
 
   apiSendCodeNoneLogin({target: formData.email}).then(res => {
+    showToast(t('发送成功'));
   }).catch(() => {
     codeEmailLoading.value = false
     clearInterval(emailTimer.value)
