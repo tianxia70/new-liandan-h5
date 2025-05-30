@@ -1,6 +1,6 @@
 <template>
 <div class="page-container invite-container">
-  <van-nav-bar class="page-navbar theme">
+  <van-nav-bar class="page-navbar theme" :title="APP_NAME">
   <template #left>
     <van-icon class="iconfont" class-prefix='icon' name='more' size="18" @click="navigateTo('/me')"/>
   </template>
@@ -99,6 +99,7 @@
 </div>
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { computed, ref, onMounted } from 'vue'
 import { navigateTo, copyText, smartToFixed } from '@/utils'
 import { useI18n } from 'vue-i18n'

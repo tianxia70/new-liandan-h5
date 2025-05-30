@@ -43,6 +43,7 @@ request.interceptors.request.use(config => {
     if (localStorage.getItem('token')) {
         config.headers['token'] = localStorage.getItem('token')
     }
+    // console.log('i18n.global.locale', i18n.global.locale)
     if (i18n.global.locale == 'en-US') {
         config.headers['lang'] = 'en'
     } else {
@@ -94,8 +95,12 @@ request.interceptors.response.use(res => { // 200开头的
                 // window.location = '/#/login'
                 return
             default:
-                showNotify({type: 'danger', message: errCode ? i18n.global.t('errorCode.'+errCode, data) : msg});
-                return Promise.reject(res.data || res.msg)
+                if(res.data?.isTranslated) {
+                    showNotify({type: 'danger', message: msg || '' })
+                } else {
+                    showNotify({type: 'danger', message: errCode ? i18n.global.t('errorCode.'+errCode, data) : msg});
+                }
+                return Promise.reject(res.data || msg)
         }
     }, error => {
         if (error && error.response) {

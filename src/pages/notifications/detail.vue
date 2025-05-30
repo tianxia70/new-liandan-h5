@@ -33,7 +33,7 @@ onMounted(() => {
     const detail = JSON.parse(route.query.detail) || {}
     if(detail?.id) {
       infoData.value = {...detail}
-      webpageCont.value = cont.content || ''
+      webpageCont.value = detail.content || ''
     }
 
     userStore.getNotifiyUnread()

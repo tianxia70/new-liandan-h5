@@ -1,6 +1,7 @@
 // 手机验证
 export function validatePhone(phone) {
   const regexList = [
+    /^[0-9]{5,20}$/,
     /^1[3-9]\d{9}$/, // 中国大陆
     /^[569]\d{7,8}$/, // 中国香港
     /^1\d{9}$/, // 美国

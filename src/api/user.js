@@ -19,6 +19,8 @@ export const uploadImg = (file) => {
     })
 };
 
+
+
 // 更新用户图标
 export const apiUserRefreshAvatar = (data) => {
     return request({
@@ -117,6 +119,16 @@ export const apiUserHomePageList = (data) => {
 export const apiUserGoodsList = (params) => {
     return request({
         url: "/api/user/goods/list",
+        method: "get",
+        params
+    })
+};
+
+
+// 获取弹框公告
+export const apiBulletin = (params) => {
+    return request({
+        url: "api/user/bulletin",
         method: "get",
         params
     })

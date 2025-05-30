@@ -19,7 +19,7 @@
 
         <div class="list-item" v-for="item in listData" :key="item.id">
           <div class="flex items-center flex-shrink">
-            <img class="list-img" src="../../assets/images/icon/income.png" v-if="item.amount > 0">
+            <img class="list-img" src="../../assets/images/icon/income.png" v-if="item.amount >= 0">
             <img class="list-img" src="../../assets/images/icon/out.png" v-else>
             <div class="title">
               {{ item?.contentType ? $t(item?.contentType) : '' }}
@@ -27,6 +27,7 @@
           </div>
           <div class="list-right align-right">
             <div class="acount" v-if="item.amount > 0">+${{ smartToFixed(item.amount || 0) }}</div>
+            <div class="acount" v-else-if="item.amount == 0">0</div>
             <div class="acount red" v-else>-${{ smartToFixed(0-item.amount || 0) }}</div>
             <div class="time">{{ item?.createTimeStr }}</div>
           </div>
@@ -74,8 +75,8 @@ const actions = [
   {name: t('brokerage'), key: "brokerage"},
   {name: t('sys-increment'), key: "sys-increment"},
   {name: t('sys-decrement'), key: "sys-decrement"},
-  {name: t('galaxy_back'), key: "galaxy_back"},
-  {name: t('vip-recharge'), key: "vip-recharge"},
+  // {name: t('galaxy_back'), key: "galaxy_back"},
+  // {name: t('vip-recharge'), key: "vip-recharge"},
   {name: t('freeze-order'), key: "freeze-order"},
   {name: t('unfreeze-order'), key: "unfreeze-order"},
   {name: t('unfreeze-order-rebate'), key: "unfreeze-order-rebate"},

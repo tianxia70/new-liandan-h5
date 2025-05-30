@@ -1,6 +1,6 @@
 <template>
 <div class="page-container home-container">
-  <van-nav-bar class="page-navbar theme">
+  <van-nav-bar class="page-navbar theme" :title="APP_NAME">
     <template #left>
       <van-icon class="iconfont" class-prefix='icon' name='more' size="18" @click="navigateTo('/me')"/>
     </template>
@@ -29,14 +29,14 @@
       <div class="balance-box">
         <div class="tit">{{ $t('钱包余额') }}</div>
         <div class="flex justify-between items-center">
-          <div class="money" v-if="showEye">
+          <div class="money" v-if="userStore.showBalance">
             ${{ smartToFixed(balance?.usdtMoney || 0) }}
           </div>
           <div class="money" v-else>
             $******
           </div>
           <div>
-            <van-icon class="iconfont" class-prefix='icon' :name="showEye ? 'eye-fill' : 'eyeclose-fill'" size="28" @click="showEye = !showEye"/>
+            <van-icon class="iconfont" class-prefix='icon' :name="userStore.showBalance ? 'eye-fill' : 'eyeclose-fill'" size="28" @click="userStore.showBalance = !userStore.showBalance"/>
             <!-- <img class="w-24" src="../../assets/images/icon/eye-o.jpg" alt="" srcset=""> -->
           </div>
         </div>
@@ -171,20 +171,23 @@
       <van-button type="danger">危险按钮</van-button>
     </div> -->
 </div>
+<PopNotice />
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { computed, ref, onMounted } from 'vue'
 import { navigateTo, switchTab, copyText, smartToFixed } from '@/utils'
 import {useRouter} from "vue-router"
 import { apiUserHomePageList, apiUserGoodsList } from '@/api/user'
 import { useUserStore, useWalletStore } from '@/store'
+import PopNotice from '@/components/pop-notice/index.vue'
 
 import avatarImg from '@/assets/images/user/headimg.png'
 
 const walletStore = useWalletStore()
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
-const showEye = ref(false)
+// const showEye = ref(false)
 const pageList = ref([])
 const shopList = ref([])
 
@@ -219,9 +222,9 @@ onMounted(() => {
 })
 
 function goPage(sectionType = '') {
-  const selItem = pageList.value.find(item => item.sectionType == sectionType)
-  if(selItem?.id) {
-    router.push('/webpage?cont='+JSON.stringify(selItem))
+  const selItems = pageList.value.filter(item => item.sectionType == sectionType)
+  if(selItems?.length) {
+    router.push('/webpage?conts='+JSON.stringify(selItems))
   }
 }
 

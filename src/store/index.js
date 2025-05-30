@@ -9,10 +9,11 @@ store.use(piniaPluginPersistedstate)
 
 
 
+import { useAppStore } from './modules/app'
 import { useUserStore } from './modules/user'
 import { useWalletStore } from './modules/wallet'
-
 export {
+  useAppStore,
   useUserStore,
   useWalletStore
 }

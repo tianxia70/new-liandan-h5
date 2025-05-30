@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { apiUserInfo } from '@/api/login'
-import { apiUserLevelList, apiNotifiyUnread } from '@/api/user'
+import { apiUserLevelList, apiNotifiyUnread, apiBulletin } from '@/api/user'
 import router from '@/router/router'
 
 // import { setStorage } from '@/utils'
@@ -10,15 +10,15 @@ import router from '@/router/router'
 const userOpt = { id: 0  }
 export const useUserStore = defineStore('user', {
 	persist: {
-		storage: localStorage
+		paths: ['token', 'user', 'language']
 	},
 	state: () => ({
 		user: {...userOpt},
 		token: '',
+		showBalance: false,
 		unReadNum: 0,
 		language: '',
 		vipList: [],
-
 	}),
 	getters: {
 		getToken(state) {
@@ -40,6 +40,26 @@ export const useUserStore = defineStore('user', {
 		// 	this.language = language
 		// 	setStorage('lang', language)
 		// },
+		getNoticeList() {
+			
+			return new Promise((resolve, reject) => {
+        if(this.noticeList?.length == 0) {
+          apiBulletin({}).then(res => {
+            if(res?.length) {
+              this.noticeList = [...res]
+							console.log('noticeList', this.noticeList)
+              resolve(JSON.parse(JSON.stringify(res)))
+            }else {
+              resolve([])
+            }
+          }).catch(() => {
+              resolve([])
+          })
+        } else {
+          resolve(this.noticeList)
+        }
+      })
+		},
 		getUserInfo(token) {
 			return new Promise((resolve, reject) => {
 				apiUserInfo({}).then(res => {

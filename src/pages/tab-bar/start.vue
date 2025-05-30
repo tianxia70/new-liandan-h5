@@ -1,7 +1,7 @@
 <template>
 <div class="page-container start-container">
   <div class="header-top">
-    <van-nav-bar class="page-navbar theme">
+    <van-nav-bar class="page-navbar theme" :title="APP_NAME">
       <template #left>
         <van-icon class="iconfont" class-prefix='icon' name='more' size="18" @click="navigateTo('/me')"/>
       </template>
@@ -42,7 +42,8 @@
           </div>
             <div class="tips">
               <div class="text">{{ $t('待完成') }}</div>
-              <div class="text">{{ infoData?.currentCount || 0}}/{{ infoData?.totalCount || 0 }}</div>
+              <div class="text">{{ (infoData?.totalCount - infoData?.currentCount) || 0}}/{{ infoData?.totalCount || 0 }}</div>
+              <!-- <div class="text">{{ infoData?.currentCount || 0}}/{{ infoData?.totalCount || 0 }}</div> -->
             </div>
           </div>
           <div class="circlebox box2">
@@ -56,7 +57,8 @@
           </div>
             <div class="tips">
               <div class="text">{{ $t('限制') }}</div>
-              <div class="text">{{ (infoData?.totalCount - infoData?.currentCount) || 0}}/{{ infoData?.totalCount || 0 }}</div>
+              <!-- <div class="text">{{ (infoData?.totalCount - infoData?.currentCount) || 0}}/{{ infoData?.totalCount || 0 }}</div> -->
+              <div class="text">{{ infoData?.currentCount || 0}}/{{ infoData?.totalCount || 0 }}</div>
             </div>
           </div>
         </div>
@@ -156,6 +158,7 @@
 <PasswordDialog v-model="showPwd" @done="handleDone"/>
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { ref, computed, onMounted } from 'vue'
 import { navigateTo, preciseSub, preciseMul, smartToFixed } from '@/utils'
 import { useI18n } from 'vue-i18n'
@@ -186,7 +189,7 @@ const currentRate = computed(() => {
   if(infoData.value?.totalCount == 0 ){
     return 0
   }
-  return smartToFixed((infoData.value?.currentCount / infoData.value?.totalCount) * 100, 0) || 0
+  return smartToFixed((preciseSub(infoData.value?.totalCount || 0, infoData.value?.currentCount || 0) / infoData.value?.totalCount) * 100, 0) || 0
 });
 
 // 未完成进度条
@@ -194,8 +197,9 @@ const currentRate2 = computed(() => {
   if(infoData.value?.totalCount == 0 ){
     return 0
   }
-  return 100 - currentRate.value
-  // return (infoData.value?.currentCount / infoData.value?.totalCount) * 100
+  // return 100 - currentRate.value
+  return smartToFixed((infoData.value?.currentCount / infoData.value?.totalCount) * 100, 0) || 0
+  // return (infoData.value?.brushCount / infoData.value?.totalCount) * 100
 });
 
 onMounted(() => {

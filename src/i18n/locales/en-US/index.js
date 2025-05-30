@@ -20,6 +20,7 @@ export default {
   '欢迎页文本': 'Transparent and stable, the preferred platform trusted by millions of encrypted users.',
 	'站内信': 'notifications',
 	'确认购买': 'Confirm the purchase {name}?',
+	'关闭': 'Close',
 
   '请输入手机号': 'Please enter phone number',
   '请输入正确格式的手机号': 'Please enter a valid phone number',
@@ -697,6 +698,10 @@ export default {
   "errorCode.400059": "Remove other default address first",
   "errorCode.400401": "Complete verification",
   "errorCode.400402": "Verification failed",
+  "errorCode.400403": "Please enter the correct verification code",
+  "errorCode.400404": "The address format does not match the protocol",
+  "errorCode.400405": "This protocol is not supported for the time being",
+  "errorCode.400406": "The user has bound the withdrawal address",
   "errorCode.499999": "Duplicate request",
   "errorCode.500000": "Operation failed, try again",
   "errorCode.500001": "Server error, contact support",

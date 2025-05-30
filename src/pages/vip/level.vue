@@ -20,7 +20,7 @@
           <div class="level-body">
             <div class="item"> ・{{ $t('每日任务数') }} <span>{{ item.dailyTaskLimit || 0 }}</span></div>
             <div class="item"> ・{{ $t('限制金额') }} <span>${{ smartToFixed(item.grabOrderLimitAmount || 0) }}</span></div>
-            <div class="item"> ・{{ $t('订单佣金比例') }} <span>{{ smartToFixed(item.commissionRation * 100) + '%'}}</span></div>
+            <div class="item"> ・{{ $t('订单佣金比例') }} <span>{{ smartToFixed(item.commissionRation) + '%'}}</span></div>
             <div class="item"><span class="money">${{ smartToFixed(item.price || 0) }}</span></div>
           </div>
         </div>

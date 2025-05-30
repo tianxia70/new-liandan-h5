@@ -5,7 +5,7 @@
   </van-nav-bar>
   <div class="page-body page-scroll">
     <div class="p-20">
-       <van-image v-if="infoData.id == 1" class="w-full" :src="item" v-for="item in imagesList"/>
+       <van-image v-if="sectionType == 1" class="w-full" :src="item.imageUrl" v-for="item in infoList"/>
 
        <div v-else-if="webpageCont" v-html="webpageCont"></div>
 
@@ -25,21 +25,27 @@ const { t } = useI18n();
 const userStore = useUserStore()
 const router = useRouter(); // 获取路由实例
 const route = useRoute()
+const sectionType = ref(0)
 const webpageCont = ref('')
 const imagesList = ref([])
+const infoList = ref([])
 const infoData = ref({})
 
 onMounted(() => {
-  console.log('routeroute', route)
-  if(route?.query?.cont) {
-    const cont = JSON.parse(route.query.cont) || {}
-    if(cont?.id) {
-      infoData.value = {...cont}
-      if(cont.id == 1) {
-        const imgs = cont.imageUrl.split(';')
-        imagesList.value = [...imgs]
+  if(route?.query?.conts) {
+    const conts = JSON.parse(route.query.conts) || []
+  console.log('routeroute', route, conts)
+    if(conts?.length) {
+      sectionType.value = conts[0]?.sectionType
+      
+      // infoData.value = {...conts}
+      if(sectionType.value == 1) {
+        // const imgs = cont.imageUrl.split(';')
+        infoList.value = [...conts]
+        console.log('infoList', infoList.value)
+        // imagesList.value = [...imgs]
       } else {
-        webpageCont.value = cont.content || ''
+        webpageCont.value = conts[0]?.content || ''
       }
     }
   }

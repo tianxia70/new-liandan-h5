@@ -54,8 +54,9 @@
       <van-cell-group inset size="large">
         <van-cell :title="$t('站内信')" is-link @click="navigateTo('/notifiy')">
           <template #icon>
-            <van-icon class="iconfont mr-10" class-prefix='icon' name='notice' size="22"/>
+            <van-icon class="iconfont mr-10" class-prefix='icon' name='notice' size="22" />
           </template>
+          <van-badge class="notifiy-badge" v-if="userStore?.unReadNum > 0" :content="userStore?.unReadNum" max="99" />
         </van-cell>
         <van-cell :title="$t('个人信息')" is-link @click="navigateTo('/userInfo')">
           <template #icon>
@@ -225,6 +226,10 @@ const handleLayout = () => {
 
     .van-cell-group {
       margin: 0;
+
+      .notifiy-badge {
+        transform: none;
+      }
     }
   }
 }  

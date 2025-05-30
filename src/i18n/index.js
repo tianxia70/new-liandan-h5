@@ -56,7 +56,6 @@ const messages = {
 
 // 使用vue-i18n库
 export const i18n = createI18n({
-    legacy: false,
     locale: lang,
     messages
 })

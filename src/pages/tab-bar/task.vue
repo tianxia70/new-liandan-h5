@@ -1,7 +1,7 @@
 <template>
 <div class="page-container task-container">
   <div class="header-top">
-    <van-nav-bar class="page-navbar theme">
+    <van-nav-bar class="page-navbar theme" :title="APP_NAME">
       <template #left>
         <van-icon class="iconfont" class-prefix='icon' name='more' size="18" @click="navigateTo('/me')"/>
       </template>
@@ -39,8 +39,8 @@
       <div class="list-box">
         <div class="list-item" v-for="item in listData" :key="item.orderId">
           <div class="flex justify-between pb-10">
-            <!-- <div class="item-name flex-shrink one-text pr-15">ibis Luzern Kriens</div> -->
-             <div></div>
+            <div class="item-name flex-shrink one-text pr-15">{{ locale == 'zh-CN' ? item?.cnTitle : enTitle }}</div>
+             <!-- <div></div> -->
             <van-tag type="warning" v-if="item?.status == 0">{{ $t('未完成') }}</van-tag>
           </div>
           <div class="flex item-heard pb-16">
@@ -91,6 +91,7 @@
 <PasswordDialog v-model="showPwd" @done="handleDone"/>
 </template>
 <script setup>
+import { APP_NAME } from '@/config'
 import { ref, reactive, onMounted, computed } from 'vue'
 import { navigateTo, preciseMul, smartToFixed } from '@/utils'
 import { apiOrderBrushList, apiOrderStartPay } from '@/api/task'
@@ -103,7 +104,7 @@ import { useRoute } from "vue-router"
 import { useUserStore } from '@/store'
 
 const userStore = useUserStore()
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const route = useRoute()
 // 判断首次加载哪一个tab
 const seltab = ref(Number(route.query.tab) >= 0 ? route.query.tab : -1)
