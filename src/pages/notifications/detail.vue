@@ -1,6 +1,6 @@
 <template>
 <div class="page-container notifiydetail-container">
-  <van-nav-bar class="page-navbar" left-arrow  @click-left="navigateBack">
+  <van-nav-bar class="page-navbar" left-arrow :title="title" @click-left="navigateBack">
 
   </van-nav-bar>
   <div class="page-body page-scroll">
@@ -25,6 +25,7 @@ const userStore = useUserStore()
 const router = useRouter(); // 获取路由实例
 const route = useRoute()
 const webpageCont = ref('')
+const title = ref('')
 const imagesList = ref([])
 const infoData = ref({})
 
@@ -34,6 +35,7 @@ onMounted(() => {
     if(detail?.id) {
       infoData.value = {...detail}
       webpageCont.value = detail.content || ''
+      title.value = detail.title || ''
     }
 
     userStore.getNotifiyUnread()

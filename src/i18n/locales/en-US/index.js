@@ -81,11 +81,15 @@ export default {
 	'提现地址': 'Withdraw address',
   '请选择提现地址': 'Please select the withdrawal address',
 	'请输入提现地址': 'Please enter the withdrawal address',
+	'用户余额小于限制购买金额': 'The user balance is less than the limit purchase amount',
+	'客服信息加载失败': 'Customer service information failed to load',
 
   'recharge': 'Recharge',
   'withdraw': 'Withdraw',
-  'brokerage': 'Commission',
+  'brokerage': 'Rebate on orders',
   'increment': 'System Deposit',
+	'sign-bonus': 'Registration Gift',
+	'invitation-rewards': 'Invite friends to register for gifts',
   'sys-increment': 'System Deposit',
   'sys-decrement': 'System Deduction',
   'galaxy_back': 'Beginner Task',
@@ -95,7 +99,7 @@ export default {
   'pay-order': 'Pay Order/Product Purchase',
 	'pay-level': 'VIP purchase',
   'gift_amount': 'Beginner Reward',
-	'unfreeze-order-rebate': 'Unfreeze rebate commission amount',
+	'unfreeze-order-rebate': 'Order grab commission',
 	'unfreeze-order-money': 'Unfreeze order principal',
   'jackpot': 'Bonus',
   'title': 'Title',
@@ -909,5 +913,6 @@ export default {
   "errorCode.590250": "Insufficient credit score",
   "errorCode.590251": "Order grabbing limit reached",
   "errorCode.590252": "Not order grabbing hours",
-  "errorCode.590253": "VIP level 0, upgrade first"
+  "errorCode.590253": "VIP level 0, upgrade first",
+  "errorCode.590254": "The user balance is less than the limit purchase amount"
 }

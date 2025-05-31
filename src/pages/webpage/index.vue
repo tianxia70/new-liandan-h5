@@ -1,6 +1,6 @@
 <template>
 <div class="page-container webpage-container">
-  <van-nav-bar class="page-navbar" left-arrow  @click-left="navigateBack">
+  <van-nav-bar class="page-navbar" left-arrow :title="title"  @click-left="navigateBack">
 
   </van-nav-bar>
   <div class="page-body page-scroll">
@@ -31,10 +31,23 @@ const imagesList = ref([])
 const infoList = ref([])
 const infoData = ref({})
 
+const title = computed(() => {
+  if(sectionType.value == 1) {
+    return t('证书')
+  } else if(sectionType.value == 2) {
+    return t('最新事件')
+  } else if(sectionType.value == 3) {
+    return t('关于我们')
+  } else if(sectionType.value == 4) {
+    return t('服务条款')
+  }
+})
+
 onMounted(() => {
+  // console.log('route.query.conts', route.query.conts)
   if(route?.query?.conts) {
     const conts = JSON.parse(route.query.conts) || []
-  console.log('routeroute', route, conts)
+  // console.log('routeroute', route, conts)
     if(conts?.length) {
       sectionType.value = conts[0]?.sectionType
       

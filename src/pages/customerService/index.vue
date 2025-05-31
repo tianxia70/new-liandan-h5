@@ -19,6 +19,9 @@
 </template>
 <script setup>
 import { navigateTo, navigateBack } from '@/utils'
+import { showToast } from 'vant'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n();
 
 function handleStart(){
   let user = localStorage.getItem('user')
@@ -27,10 +30,10 @@ function handleStart(){
   // window.location.href = 'https://chatlink.mstatik.com/widget/standalone.html?eid=868016f872a48af5e889858c85acdfe6&language=en'
   console.log('user', user)
   // enterOnlineService(user)
-  if(im_create_iframe_client) {
-    im_create_iframe_client.open()
+  if(window?.im_create_iframe_client) {
+    window.im_create_iframe_client.open()
   } else {
-    
+    showToast(t('客服信息加载失败'))
   }
   // im_create_iframe_client && im_create_iframe_client.open()
 

@@ -81,11 +81,15 @@ export default {
 	'提现地址': '提现地址',
 	'请选择提现地址': '请选择提现地址',
 	'请输入提现地址': '请输入提现地址',
+	'用户余额小于限制购买金额': '用户余额小于限制购买金额',
+	'客服信息加载失败': '客服信息加载失败',
 
 	'recharge': '充值',
 	'withdraw': '提现',
-	'brokerage': '佣金',
+	'brokerage': '订单下级返佣',
 	'increment': '系统加款',
+	'sign-bonus': '注册礼金',
+	'invitation-rewards': '邀请好友注册礼金',
 	'sys-increment': '系统加款',
 	'sys-decrement': '系统扣款',
 	'galaxy_back': '新手任务',
@@ -95,7 +99,7 @@ export default {
 	'pay-order': '支付订单/商品购买',
 	'pay-level': 'VIP购买',
 	'gift_amount': '完成新手任务奖励',
-	'unfreeze-order-rebate': '解冻返佣金额',
+	'unfreeze-order-rebate': '订单抢单佣金',
 	'unfreeze-order-money': '解冻订单本金',
 	'jackpot': '彩金赠送',
 	'title': '這是標題',
@@ -921,5 +925,6 @@ export default {
   "errorCode.590250": "信誉分不足，无法抢单",
   "errorCode.590251": "抢单次数用尽，无法抢单",
   "errorCode.590252": "不在抢单时间段，无法抢单",
-  "errorCode.590253": "当前VIP等级为0，请先升级VIP等级"
+  "errorCode.590253": "当前VIP等级为0，请先升级VIP等级",
+  "errorCode.590254": "用户余额小于限制购买金额"
 }

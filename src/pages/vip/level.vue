@@ -19,7 +19,7 @@
           </div>
           <div class="level-body">
             <div class="item"> ・{{ $t('每日任务数') }} <span>{{ item.dailyTaskLimit || 0 }}</span></div>
-            <div class="item"> ・{{ $t('限制金额') }} <span>${{ smartToFixed(item.grabOrderLimitAmount || 0) }}</span></div>
+            <div class="item"> ・{{ $t('限制金额') }} <span>${{ smartToFixed(item.purchaseLimitAmount || 0) }}</span></div>
             <div class="item"> ・{{ $t('订单佣金比例') }} <span>{{ smartToFixed(item.commissionRation) + '%'}}</span></div>
             <div class="item"><span class="money">${{ smartToFixed(item.price || 0) }}</span></div>
           </div>
@@ -40,6 +40,7 @@ import { apiUserLevelBuy } from '@/api/user'
 import { useI18n } from 'vue-i18n'
 import { showToast, showConfirmDialog, showLoadingToast, closeToast, showSuccessToast } from 'vant'
 const userStore = useUserStore()
+const walletStore = useWalletStore()
 
 const { t } = useI18n()
 const router = useRouter(); // 获取路由实例
@@ -50,6 +51,10 @@ const userInfo = computed(() => {
 })
 const vipList = computed(() => {
   return userStore.vipList || []
+})
+
+const balance = computed(() => {
+	return walletStore.balance || {}
 })
 
 const curVip = computed(() => {
@@ -65,7 +70,16 @@ function handleBuy(item) {
       showToast(t('只能购买比当前VIP更高的等级'))
       return
     }
+    
+    if((item.price || 0) > (balance.value?.usdtMoney || 0)) {
+      showToast(t('账号余额不足'))
+      return
+    }
 
+    if((item.purchaseLimitAmount || 0) > (balance.value?.usdtMoney || 0)) {
+      showToast(t('用户余额小于限制购买金额'))
+      return
+    }
 
     showConfirmDialog({
       title: t('温馨提示'),
@@ -87,6 +101,7 @@ function handleDone(pwd) {
     showToast(t('购买成功'))
     userStore.getVipList()
     userStore.getUserInfo()
+		walletStore.getWalletBalance()
 
   }).finally(() => {
   })

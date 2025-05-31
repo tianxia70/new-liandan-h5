@@ -17,6 +17,19 @@
           <div class="desc text-warp" @click="copyText(selBlockChain.address)">{{ selBlockChain.address }} <van-icon class="iconfont primary-color ml-5" class-prefix='icon' name='copy' size="16"/></div>
         </div>
       </div>
+
+      <div class="qrcode-box" v-if="selBlockChain.address">
+        <canvas id="canvas" style="display:none"></canvas>
+        <img v-show="imgUrl" :src="imgUrl" style="width: 150px;height: 150px;"/>
+
+        <div class="btn" v-if="imgUrl">
+          <van-button @click="baocunhaibao" size="small">{{ $t('保存二维码') }}</van-button>
+        </div>
+      </div>
+
+      <!-- <div class="baocunerweima">
+        <div class="baocunerweima-buuon" @click="baocunhaibao">{{ $t('保存二维码') }}</div>
+      </div> -->
     </van-cell-group>
 
   <div class="amount-list">
@@ -91,7 +104,8 @@
 </div>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import QRCode from 'qrcode'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useI18n } from "vue-i18n";
 import { copyText, preciseMul, hideChainNum, smartToFixed } from '@/utils'
 import { useRouter } from "vue-router"
@@ -111,6 +125,7 @@ const selAmount = ref(moneyList.value[1])
 const amount = ref(selAmount.value)
 const fileList = ref([])
 const upImg = ref('')
+const imgUrl = ref('')
 const isLoading = ref(false)
 const addressList = ref([])
 const rechargeCfg = ref({
@@ -189,6 +204,10 @@ function onSelect(event) {
   selBlockChain.value = { ...event }
   // finished.value = false
   showAddressDialog.value = false
+
+  nextTick(() => {
+    useqrcode()
+  })
 }
 
 function handleSubmit() {
@@ -249,6 +268,53 @@ function handleSubmit() {
     isLoading.value = false
   })
   
+  
+}
+
+function useqrcode() {//生成二维码
+  let canvas = document.getElementById('canvas')
+  let url = selBlockChain.value?.address || ''
+  QRCode.toCanvas(canvas, url, function (error) {
+    if (error) {
+      console.error(error)
+    } else {
+      console.log('success!');
+    }
+  })
+  saveImg()//保存图片
+}
+function baocunhaibao() {
+  let myCanvas = document.getElementsByTagName('canvas');
+  imgUrl.value = myCanvas[0].toDataURL('image/png')
+
+  getUrlBase64(imgUrl.value).then(base64 => {
+    let link = document.createElement('a')
+    link.href = base64
+    link.download = 'qrCode.png'
+    link.click()
+  })
+}
+function getUrlBase64(url) {
+  return new Promise(resolve => {
+    let canvas = document.createElement('canvas')
+    let ctx = canvas.getContext('2d')
+    let img = new Image()
+    img.crossOrigin = 'Anonymous' //允许跨域
+    img.src = url
+    img.onload = function () {
+      canvas.height = 300
+      canvas.width = 300
+      ctx.drawImage(img, 0, 0, 300, 300)
+      let dataURL = canvas.toDataURL('image/png')
+      canvas = null
+      resolve(dataURL)
+    }
+  })
+}
+//保存图片
+function saveImg() {
+  let myCanvas = document.getElementsByTagName('canvas');
+  imgUrl.value = myCanvas[0].toDataURL('image/png')
 }
 
 </script>
@@ -275,6 +341,15 @@ function handleSubmit() {
     .desc {
       padding-top: 5px;
     }
+  }
+
+  .qrcode-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
   }
 
   :deep(.van-popup) {

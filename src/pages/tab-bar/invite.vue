@@ -58,26 +58,26 @@
           <div class="box1 flex justify-between">
             <div class="box-item">
               <div class="text">{{ $t('总佣金收益') }}</div>
-              <div class="money">{{ totalRebate }}</div>
+              <div class="money">${{ totalRebate }}</div>
             </div>
             <div class="line"></div>
             <div class="box-item text-right">
               <div class="text text-right">{{ $t('昨日佣金收益') }}</div>
-              <div class="money text-right">{{ infoData?.yesRebate || 0 }}</div>
+              <div class="money text-right">${{ infoData?.yesRebate || 0 }}</div>
             </div>
           </div>
           <div class="box2 flex justify-between items-center">
             <div class="item">
               <p class="text">{{ $t('一级代理佣金') }}</p>
-              <p class="money">{{ infoData?.rebate1 || 0 }}</p>
+              <p class="money">${{ infoData?.rebate1 || 0 }}</p>
             </div>
             <div class="item">
               <p class="text">{{ $t('二级代理佣金') }}</p>
-              <p class="money">{{ infoData?.rebate2 || 0 }}</p>
+              <p class="money">${{ infoData?.rebate2 || 0 }}</p>
             </div>
             <div class="item">
               <p class="text">{{ $t('三级代理佣金') }}</p>
-              <p class="money">{{ infoData?.rebate3 || 0 }}</p>
+              <p class="money">${{ infoData?.rebate3 || 0 }}</p>
             </div>
           </div>
           <p class="tips">{{ $t('佣金收益已实时发放在钱包余额中') }}</p>

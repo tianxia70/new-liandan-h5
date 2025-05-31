@@ -24,7 +24,7 @@
       </div>
       <div class="line"></div>
       <div class="item">
-        <div class="money">${{ smartToFixed(infoData?.balance || 0) }}</div>
+        <div class="money">${{ smartToFixed(balance?.usdtMoney || 0) }}</div>
         <div class="text">{{ $t('钱包余额') }}</div>
       </div>
     </div>
@@ -114,9 +114,9 @@ const curVip = computed(() => {
   return userStore.getCurVip
 })
 
-// const balance = computed(() => {
-// 	return walletStore.balance || {}
-// })
+const balance = computed(() => {
+	return walletStore.balance || {}
+})
 
 onMounted(() => {
 

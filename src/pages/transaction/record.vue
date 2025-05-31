@@ -73,6 +73,8 @@ const actions = [
   {name: t('recharge'), key: "recharge"},
   {name: t('withdraw'), key: "withdraw"},
   {name: t('brokerage'), key: "brokerage"},
+  {name: t('sign-bonus'), key: "sign-bonus"},
+  {name: t('invitation-rewards'), key: "invitation-rewards"},
   {name: t('sys-increment'), key: "sys-increment"},
   {name: t('sys-decrement'), key: "sys-decrement"},
   // {name: t('galaxy_back'), key: "galaxy_back"},
