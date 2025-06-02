@@ -226,7 +226,7 @@ onMounted(() => {
 
 function getSysparaFn() {
   apiGetSyspara(['register_verify_email', 'register_verify_phone', 'register_verify_captcha']).then(res => {
-    console.log('sssss ', res)
+    // console.log('sssss ', res)
     sysParaRes.value = res?.length ? [ ...res ] : []
   })
 }

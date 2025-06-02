@@ -183,7 +183,7 @@ const orderInfo = ref({})
 const showPwd = ref(false)
 const showPop = ref(false)
 const isLoading = ref(false)
-const sysParaRes = ref({})
+const sysParaRes = ref([])
 
 const userInfo = computed(() => {
   return userStore.getUser
@@ -196,7 +196,9 @@ const curVip = computed(() => {
 
 // 是否验证身份认证
 const identityValidate = computed(() => {
-  return sysParaRes.value['bind_identity']?.modify == 0 ? 0 : 1
+  const selItem = sysParaRes.value.find(item => item.code == 'bind_identity') || []
+  return selItem?.modify || 0
+  // return sysParaRes.value['bind_identity']?.modify == 0 ? 0 : 1
 })
 
 onMounted(() => {
@@ -205,8 +207,10 @@ onMounted(() => {
 })
 
 function getSysparaFn() {
+  
   apiGetSyspara(['bind_identity']).then(res => {
-    sysParaRes.value = res?.length ? { ...res } : {}
+    // console.log('sssss ', res)
+    sysParaRes.value = res?.length ? [ ...res ] : []
   })
 }
 
@@ -240,6 +244,7 @@ function getInfoData() {
 }
 
 function handleQiangdan() {
+  console.log('identityValidate', identityValidate.value, !userInfo.value?.identityverif)
   if(identityValidate.value && !userInfo.value?.identityverif) {
     showConfirmDialog({
       title: t('温馨提示'),

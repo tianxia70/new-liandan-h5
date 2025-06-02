@@ -11,7 +11,7 @@ v-model:error="error"
 <div class="list-item" v-for="item in listData" :key="item.id">
   <div class="item">
     <div class="left">{{ $t('订单号') }}</div>
-    <div class="right" @click="copyText(item.order_no)">{{ item.order_no }} <van-icon class="iconfont primary-color ml-5" class-prefix='icon' name='copy' size="16"/></div>
+    <div class="right" @click="copyText(item.orderNo)">{{ item.orderNo }} <van-icon class="iconfont primary-color ml-5" class-prefix='icon' name='copy' size="16"/></div>
   </div>
   <div class="item">
     <div class="left">{{ $t('充值金额') }}</div>
