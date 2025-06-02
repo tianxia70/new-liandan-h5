@@ -83,6 +83,8 @@ export default {
 	'请输入提现地址': 'Please enter the withdrawal address',
 	'用户余额小于限制购买金额': 'The user balance is less than the limit purchase amount',
 	'客服信息加载失败': 'Customer service information failed to load',
+	"您尚未身份认证": 'You have not been authenticated, whether to authenticate',
+	'请求地址不存在': 'Not found: {url}',
 
   'recharge': 'Recharge',
   'withdraw': 'Withdraw',

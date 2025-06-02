@@ -31,7 +31,7 @@ const moneyNum = computed(() => {
   if(props.money != 'none') {
     return smartToFixed(props.money)
   }
-  return smartToFixed(balance.value?.usdtMoney || 0)
+  return smartToFixed(balance.value?.usdtMoney)
 })
 
 </script>

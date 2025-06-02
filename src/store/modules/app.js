@@ -1,9 +1,11 @@
 import { defineStore } from "pinia"
 import { apiBulletin } from '@/api/user'
+// import { apiGetSysconfig } from '@/api/app'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
     noticeList: [],
+    sectionArr: [],
     isShowNotice: true
   }),
   getters: {
@@ -13,6 +15,9 @@ export const useAppStore = defineStore('app', {
     // 	this.language = language
     // 	setStorage('lang', language)
     // },
+    setSectionArr(arr = []) {
+      this.sectionArr = [...arr]
+    },
     getNoticeList() {
       
       return new Promise((resolve, reject) => {

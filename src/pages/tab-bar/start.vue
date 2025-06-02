@@ -67,20 +67,20 @@
           <div class="detail-item">
             <div class="flex items-center justify-between">
               <div class="title font-18">{{ $t('今日收入') }}</div>
-              <div class="money font-22 primary-color">${{ smartToFixed(infoData?.profit || 0) }}</div>
+              <div class="money font-22 primary-color">${{ smartToFixed(balanceData?.profit) }}</div>
             </div>
             <div class="info">{{ $t('系统会更新每日收入') }}</div>
           </div>
           <div class="detail-item">
             <div class="flex items-center justify-between">
               <div class="title font-18">{{ $t('钱包余额') }}</div>
-              <div class="money font-22 primary-color">${{ smartToFixed(infoData?.balance || 0) }}</div>
+              <div class="money font-22 primary-color">${{ smartToFixed(balanceData?.balance) }}</div>
             </div>
             <div class="info">{{ $t('每项任务的利润增加到资产余额中') }}</div>
           </div>
 
           <div class="">
-            <van-button block round type="primary" :loading="isLoading" @click="handleSubmit">
+            <van-button block round type="primary" :loading="isLoading" @click="handleQiangdan">
               <div class="flex items-center">
                 {{ $t('开始抢单') }} <van-icon class="iconfont" class-prefix='icon' name='right' size="18"/>
               </div>
@@ -162,27 +162,53 @@ import { APP_NAME } from '@/config'
 import { ref, computed, onMounted } from 'vue'
 import { navigateTo, preciseSub, preciseMul, smartToFixed } from '@/utils'
 import { useI18n } from 'vue-i18n'
-import {useRouter} from "vue-router"
-import { useUserStore } from '@/store'
+import { useRouter } from "vue-router"
+import { useUserStore, useWalletStore } from '@/store'
 import PasswordDialog from '@/components/password-dialog/index.vue'
+import { apiGetSyspara } from '@/api/app'
+import { apiUserFindUserInfo } from '@/api/user'
 import { apiOrderStartData, apiOrderStartPre, apiOrderStartBrush, apiOrderStartPay  } from '@/api/task'
 
-import avatarImg from '@/assets/images/user/headimg.png'
+// import avatarImg from '@/assets/images/user/headimg.png'
 import { showSuccessToast, showConfirmDialog } from 'vant'
 
 const { t } = useI18n();
 const userStore = useUserStore()
+const walletStore = useWalletStore()
 const router = useRouter(); // 获取路由实例
 
 const infoData = ref({})
+const balanceData = ref({})
 const orderInfo = ref({})
 const showPwd = ref(false)
 const showPop = ref(false)
 const isLoading = ref(false)
+const sysParaRes = ref({})
+
+const userInfo = computed(() => {
+  return userStore.getUser
+})
+
 const curVip = computed(() => {
-  console.log('userStore.getCurVip', userStore.getCurVip)
+  // console.log('userStore.getCurVip', userStore.getCurVip)
   return userStore.getCurVip
 })
+
+// 是否验证身份认证
+const identityValidate = computed(() => {
+  return sysParaRes.value['bind_identity']?.modify == 0 ? 0 : 1
+})
+
+onMounted(() => {
+  getSysparaFn()
+  getInfoData()
+})
+
+function getSysparaFn() {
+  apiGetSyspara(['bind_identity']).then(res => {
+    sysParaRes.value = res?.length ? { ...res } : {}
+  })
+}
 
 // 已完成进度条
 const currentRate = computed(() => {
@@ -202,14 +228,31 @@ const currentRate2 = computed(() => {
   // return (infoData.value?.brushCount / infoData.value?.totalCount) * 100
 });
 
-onMounted(() => {
-  getInfoData()
-})
 
 function getInfoData() {
   apiOrderStartData({}).then(res => {
     infoData.value = { ...res }
   })
+
+  apiUserFindUserInfo({}).then(res => {
+    balanceData.value = { ...res }
+  })
+}
+
+function handleQiangdan() {
+  if(identityValidate.value && !userInfo.value?.identityverif) {
+    showConfirmDialog({
+      title: t('温馨提示'),
+      message: t('您尚未身份认证'),
+    }).then(() => {
+      navigateTo('/authEdit')
+        // on confirm
+    }).catch(() => {
+        // on cancel
+    })
+  } else {
+    handleSubmit()
+  }
 }
 
 function handleSubmit() {
@@ -258,6 +301,8 @@ function handleDone(pwd) {
   apiOrderStartPay(params).then(res => {
     showSuccessToast(t('支付成功'))
     getInfoData()
+    
+		walletStore.getWalletBalance()
     // if(res?.orderId) {
       // orderInfo.value = { ...res }
       showPop.value = false

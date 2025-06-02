@@ -71,12 +71,12 @@ function handleBuy(item) {
       return
     }
     
-    if((item.price || 0) > (balance.value?.usdtMoney || 0)) {
+    if((item.price || 0) > (balance.value?.usdtMoney)) {
       showToast(t('账号余额不足'))
       return
     }
 
-    if((item.purchaseLimitAmount || 0) > (balance.value?.usdtMoney || 0)) {
+    if((item.purchaseLimitAmount || 0) > (balance.value?.usdtMoney)) {
       showToast(t('用户余额小于限制购买金额'))
       return
     }

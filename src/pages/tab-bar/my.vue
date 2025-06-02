@@ -19,12 +19,13 @@
 
     <div class="account-box flex justify-between">
       <div class="item">
-        <div class="money">${{ smartToFixed(infoData?.profit || 0) }}</div>
+        <div class="money">${{ smartToFixed(infoData?.profit) }}</div>
         <div class="text">{{ $t('今日收入') }}</div>
       </div>
       <div class="line"></div>
       <div class="item">
-        <div class="money">${{ smartToFixed(balance?.usdtMoney || 0) }}</div>
+        <!-- <div class="money">${{ smartToFixed(balance?.usdtMoney || 0) }}</div> -->
+        <div class="money">${{ smartToFixed(infoData?.balance) }}</div>
         <div class="text">{{ $t('钱包余额') }}</div>
       </div>
     </div>

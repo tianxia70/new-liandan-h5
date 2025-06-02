@@ -108,12 +108,17 @@
       @confirm="onConfirmCode"
     />
   </van-popup>
+
+  <Vcode :show="showImgCode" @success="onSuccess" :imgs="codeImgs" @close="showImgCode = false" :slider-text="$t('安全检测，向右滑动')" :fail-text="$t('验证失败，请重试')"  :success-text="$t('验证通过')"/>
+
 </div>
 </template>
 <script setup>
 import { APP_NAME } from '@/config'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { closeToast, showLoadingToast, showToast } from 'vant'
+import Vcode from "vue3-puzzle-vcode"
+
 import { useI18n } from 'vue-i18n'
 import { validatePhone, validateEmail } from '@/utils/validate'
 import { navigateTo } from '@/utils'
@@ -123,11 +128,21 @@ import { phoneCodeColumns } from '@/config/options'
 import { useUserStore } from '@/store'
 import { setStorage, getStorage } from '@/utils'
 
+import img1 from "@/assets/images/public/1.jpeg"
+import img2 from "@/assets/images/public/2.jpeg"
+import img3 from "@/assets/images/public/3.jpeg"
+import img4 from "@/assets/images/public/4.jpeg"
+import img5 from "@/assets/images/public/5.jpeg"
+
+const codeImgs = [
+  img1, img2, img3, img4, img5
+]
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
 
 const { t } = useI18n();
 const selTab = ref('username')
+const showImgCode = ref(false)
 const formData = reactive({
   username: '',
   phone: '',
@@ -193,8 +208,9 @@ const onFailed = (errorInfo) => {
   console.log('failed', errorInfo);
 };
 
+
+const params = ref({})
 function handleSubmit() {
-  let params = {}
   if(selTab.value == 'username') {
     if(formData.username.trim() == '') {
       showToast(t('请输入账号'));
@@ -209,7 +225,7 @@ function handleSubmit() {
     //   return
     // }
 
-    params = {
+    params.value = {
       userName: formData.username,
       loginType: 3
     }
@@ -227,7 +243,7 @@ function handleSubmit() {
 
     const phoneCode = pickerCodeValue.value?.length ? pickerCodeValue.value[0] : ''
 
-    params = {
+    params.value = {
       phone: phoneCode.substring(1) + ' ' + formData.phone,
       loginType: 1
     }
@@ -243,7 +259,7 @@ function handleSubmit() {
     //   return
     // }
 
-    params = {
+    params.value = {
       email: formData.email,
       loginType: 2
     }
@@ -254,18 +270,48 @@ function handleSubmit() {
     return
   }
 
-  params = {
-    ...params,
+  params.value = {
+    ...params.value,
     password: formData.password.trim(),
   }
-  // btnLoading.value = true
-  showLoadingToast({
-    duration: 0,
-  // message: '加载中...',
-    forbidClick: true,
-    loadingType: 'spinner',
-  });
-  apiLogin(params).then(async res => {
+  showImgCode.value = true
+  return
+
+  // // btnLoading.value = true
+  // showLoadingToast({
+  //   duration: 0,
+  // // message: '加载中...',
+  //   forbidClick: true,
+  //   loadingType: 'spinner',
+  // });
+  // apiLogin(params).then(async res => {
+  //   if(res?.token) {
+  //     localStorage.setItem('token', res.token)
+  //     if(checked.value) {
+  //       const reJson = getStorage('loginRemember') || {}
+  //       reJson[selTab.value] = {
+  //         name: formData[selTab.value] || '',
+  //         // password: formData.password,
+  //         password: '',
+  //       }
+  //       setStorage('loginRemember', reJson)
+  //     }
+
+  //     const user = await userStore.getUserInfo(res.token)
+      
+  //     if(user?.usercode) {
+  //       showToast(t('登录成功'))
+  //       router.replace('/')
+  //     }
+  //   }
+  // }).finally(() => {
+  //   closeToast()
+  // })
+}
+
+function onSuccess() {
+
+  apiLogin({ ...params.value }).then(async res => {
     if(res?.token) {
       localStorage.setItem('token', res.token)
       if(checked.value) {
@@ -286,7 +332,7 @@ function handleSubmit() {
       }
     }
   }).finally(() => {
-    closeToast()
+    showImgCode.value = false
   })
 }
 

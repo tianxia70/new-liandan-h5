@@ -43,7 +43,7 @@
               </template>
             </van-field>
           </div>
-          <div class="form-item">
+          <div class="form-item" v-if="verifyPhone">
             <div class="form-label">{{ $t('验证码') }}</div>
             <van-field v-model="formData.verifCode" clearable :placeholder="$t('请输入验证码')" >
   
@@ -59,7 +59,7 @@
             <van-field v-model="formData.email" clearable :placeholder="$t('请输入邮箱')">
             </van-field>
           </div>
-          <div class="form-item">
+          <div class="form-item" v-if="verifyEmail">
             <div class="form-label">{{ $t('验证码') }}</div>
             <van-field v-model="formData.verifEmailCode" clearable :placeholder="$t('请输入验证码')" >
               <template #button>
@@ -132,26 +132,43 @@
       @confirm="onConfirmCode"
     />
   </van-popup>
+
+  <Vcode :show="showImgCode" @success="onSuccess" :imgs="codeImgs" @close="showImgCode = false" :slider-text="$t('安全检测，向右滑动')" :fail-text="$t('验证失败，请重试')"  :success-text="$t('验证通过')"/>
+
 </div>
 </template>
 <script setup>
 import { APP_NAME } from '@/config'
-import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { ref, reactive, computed, onBeforeUnmount, onMounted } from 'vue'
+import Vcode from "vue3-puzzle-vcode"
+
 import { showLoadingToast, closeToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
 import {useRouter} from "vue-router"
 import { validatePhone, validateEmail } from '@/utils/validate'
 import { navigateTo } from '@/utils'
 import { apiRegister, apiSendCodeNoneLogin } from '@/api/login'
+import { apiGetSyspara } from '@/api/app'
 import { phoneCodeColumns } from '@/config/options'
 import { useUserStore } from '@/store'
+
+import img1 from "@/assets/images/public/1.jpeg"
+import img2 from "@/assets/images/public/2.jpeg"
+import img3 from "@/assets/images/public/3.jpeg"
+import img4 from "@/assets/images/public/4.jpeg"
+import img5 from "@/assets/images/public/5.jpeg"
+
+const codeImgs = [
+  img1, img2, img3, img4, img5
+]
+const showImgCode = ref(false)
 
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
 
 const { t } = useI18n();
 const selTab = ref('username')
-const formData = reactive({
+const formOpt = {
   username: '',
   phone: '',
   verifCode: '',
@@ -163,6 +180,9 @@ const formData = reactive({
   eyeRePwd: true,
   agentCode: '',
   checkMode: '3',
+}
+const formData = reactive({
+  ...formOpt
 })
 const checked = ref(false)
 
@@ -175,6 +195,7 @@ const phoneTimer = ref(null)
 const phoneTime = ref(60)
 const emailTimer = ref(null)
 const emailTime = ref(60)
+const sysParaRes = ref([])
 
 const codeColumns = computed(() => {
   return phoneCodeColumns.map(item => {
@@ -184,7 +205,31 @@ const codeColumns = computed(() => {
     }
   })
 })
+// 注册时是否验证邮箱
+const verifyEmail = computed(() => {
+  const selItem = sysParaRes.value.find(item => item.code == 'register_verify_email') || []
+  console.log('3333 ', selItem)
+  return selItem?.modify || 0
+})
+const verifyPhone = computed(() => {
+  const selItem = sysParaRes.value.find(item => item.code == 'register_verify_phone') || []
+  return selItem?.modify || 0
+})
+const verifyCaptcha = computed(() => {
+  const selItem = sysParaRes.value.find(item => item.code == 'register_verify_captcha') || []
+  return selItem?.modify || 0
+})
 
+onMounted(() => {
+  getSysparaFn()
+})
+
+function getSysparaFn() {
+  apiGetSyspara(['register_verify_email', 'register_verify_phone', 'register_verify_captcha']).then(res => {
+    console.log('sssss ', res)
+    sysParaRes.value = res?.length ? [ ...res ] : []
+  })
+}
 
 const onConfirmCode = ({ selectedValues, selectedOptions }) => {
   showCodePicker.value = false
@@ -194,6 +239,7 @@ const onConfirmCode = ({ selectedValues, selectedOptions }) => {
 const handleTab = (tab) => {
   selTab.value = tab
   formData.password = ''
+  formData.rePassword = ''
 }
 
 const sendPhoneCode = () => {
@@ -212,13 +258,14 @@ const sendPhoneCode = () => {
       codePhoneLoading.value = false
       clearInterval(phoneTimer.value)
     }
-    console.log('timer.value', phoneTime.value)
+    // console.log('timer.value', phoneTime.value)
   }, 1000)
 
   const phoneCode = pickerCodeValue.value?.length ? pickerCodeValue.value[0] : ''
-  console.log('phoneCode', phoneCode)
+  // const phone = formData.phone
+  const phone = phoneCode.substring(1) + ' ' + formData.phone
 // return phoneCode.substring(1) + ' ' + 
-  apiSendCodeNoneLogin({target: formData.phone}).then(res => {
+  apiSendCodeNoneLogin({target: phone}).then(res => {
     showToast(t('发送成功'));
   }).catch(() => {
     codePhoneLoading.value = false
@@ -243,7 +290,7 @@ const sendEmailCode = () => {
       codeEmailLoading.value = false
       clearInterval(emailTimer.value)
     }
-    console.log('timer.value', emailTime.value)
+    // console.log('timer.value', emailTime.value)
   }, 1000)
 
   apiSendCodeNoneLogin({target: formData.email}).then(res => {
@@ -271,8 +318,8 @@ const goLangFn = () => {
 }
 
 
+const params = ref({})
 function handleSubmit() {
-  let params = {}
   if(selTab.value == 'username') {
     if(formData.username.trim() == '') {
       showToast(t('请输入账号'));
@@ -283,7 +330,7 @@ function handleSubmit() {
       return
     }
 
-    params = {
+    params.value = {
       username: formData.username.trim(),
       password: formData.password.trim(),
       type: 3
@@ -295,16 +342,17 @@ function handleSubmit() {
       showToast(t('请输入正确格式的手机号'));
       return
     }
-    if(formData.verifCode.trim() == '') {
+    if(formData.verifCode.trim() == '' && verifyPhone.value) {
       showToast(t('请输入验证码'));
       return
     }
     const phoneCode = pickerCodeValue.value?.length ? pickerCodeValue.value[0] : ''
 
-    params = {
+    params.value = {
       phone: phoneCode.substring(1) + ' ' + formData.phone,
       verifCode: formData.verifCode,
-      type: 1
+      type: 1,
+      checkMode: verifyPhone.value ? '3' : '2'
     }
   }
 
@@ -313,14 +361,15 @@ function handleSubmit() {
       showToast(t('请输入正确的邮箱地址'));
       return
     }
-    if(formData.verifEmailCode.trim() == '') {
+    if(formData.verifEmailCode.trim() == '' && verifyEmail.value) {
       showToast(t('请输入验证码'));
       return
     }
-    params = {
+    params.value = {
       email: formData.email.trim(),
       verifCode: formData.verifEmailCode,
-      type: 2
+      type: 2,
+      checkMode: verifyEmail.value ? '3' : '2'
     }
   }
   
@@ -340,23 +389,38 @@ function handleSubmit() {
     showToast(t('请输入邀请码'));
     return
   }
-  params = {
-    ...params,
+  params.value = {
+    ...params.value,
     password: formData.password.trim(),
     rePassword: formData.rePassword.trim(),
     agentCode: formData.agentCode,
-    checkMode: formData.checkMode,
+    // checkMode: formData.checkMode,
     // checkMode: '2'
   }
 
-  // btnLoading.value = true
-  showLoadingToast({
-    duration: 0,
-  // message: '加载中...',
-    forbidClick: true,
-    loadingType: 'spinner',
-  });
-  apiRegister(params).then(async res => {
+  // 是否开启图形验证码
+  if(verifyCaptcha.value) {
+    showImgCode.value = true
+  } else {
+    onSuccess()
+  }
+  // apiRegister(params).then(async res => {
+  //   if(res?.token) {
+  //     localStorage.setItem('token', res.token)
+  //     const user = await userStore.getUserInfo(res.token)
+
+  //     if(user?.usercode) {
+  //       showToast(t('注册成功'))
+  //       router.replace('/')
+  //     }
+  //   }
+  // })
+}
+
+
+function onSuccess() {
+
+  apiRegister({ ...params.value }).then(async res => {
     if(res?.token) {
       localStorage.setItem('token', res.token)
       const user = await userStore.getUserInfo(res.token)
@@ -367,7 +431,7 @@ function handleSubmit() {
       }
     }
   }).finally(() => {
-    closeToast()
+    showImgCode.value = false
   })
 }
 

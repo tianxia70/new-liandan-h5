@@ -4,11 +4,12 @@
 
   </van-nav-bar>
   <div class="page-body page-scroll">
-    <div class="p-20">
+    <div class="p-20 web-text-cont">
        <van-image v-if="sectionType == 1" class="w-full" :src="item.imageUrl" v-for="item in infoList"/>
 
        <div v-else-if="webpageCont" v-html="webpageCont"></div>
 
+        <EmptyComp v-else />
     </div>
   </div>
 </div>
@@ -16,12 +17,14 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 import { useI18n } from "vue-i18n"
+import EmptyComp from '@/components/empty/index.vue'
 import {useRouter, useRoute} from "vue-router"
 import { navigateTo, navigateBack } from '@/utils';
-import { useUserStore } from '@/store'
+import { useUserStore, useAppStore } from '@/store'
 import { showSuccessToast, showToast } from 'vant';
 
 const { t } = useI18n();
+const appStore = useAppStore()
 const userStore = useUserStore()
 const router = useRouter(); // 获取路由实例
 const route = useRoute()
@@ -30,6 +33,11 @@ const webpageCont = ref('')
 const imagesList = ref([])
 const infoList = ref([])
 const infoData = ref({})
+
+// 
+const sectionArr = computed(() => {
+  return appStore.sectionArr || []
+})
 
 const title = computed(() => {
   if(sectionType.value == 1) {
@@ -45,9 +53,14 @@ const title = computed(() => {
 
 onMounted(() => {
   // console.log('route.query.conts', route.query.conts)
-  if(route?.query?.conts) {
-    const conts = JSON.parse(route.query.conts) || []
-  // console.log('routeroute', route, conts)
+  setTimeout(() => {
+    let conts = [...sectionArr.value]
+    // console.log('conts', conts)
+    // let conts = null
+    if((!conts || conts?.length == 0) && route?.query?.conts) {
+      conts = JSON.parse(route.query.conts) || []
+    }
+
     if(conts?.length) {
       sectionType.value = conts[0]?.sectionType
       
@@ -61,7 +74,7 @@ onMounted(() => {
         webpageCont.value = conts[0]?.content || ''
       }
     }
-  }
+  }, 500)
 })
 
 
@@ -69,5 +82,20 @@ onMounted(() => {
 <style lang="scss" scoped>
 .webpage-container {
 
+  .web-text-cont {
+    width: 100%;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+
+    :deep(img) {
+      max-width: 100%;
+    }
+
+    :deep(code) {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+  }
 }
 </style>

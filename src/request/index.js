@@ -114,9 +114,9 @@ request.interceptors.response.use(res => { // 200开头的
                 // case 403:
                 //     error.message = '拒绝访问';
                 //     break
-                // case 404:
-                //     error.message = `请求地址不存在: ${error.response.config.url}`;
-                //     break
+                case 404:
+                    error.message = i18n.global.t('请求地址不存在', { url: error.response.config.url})
+                    break
                 // case 408:
                 //     error.message = '请求超时';
                 //     break
@@ -139,15 +139,23 @@ request.interceptors.response.use(res => { // 200开头的
                 //     error.message = 'HTTP版本不受支持';
                 //     break
                 default:
-                    error.message = showNotify({
-                        // icon: 'none',
-                        // message: i18n.t(msg)
-                        // message: '网络波动请刷新页面'
-                        message: 'request error'
-                    });
-                    Promise.reject(error.message)
+                    // error.message = showNotify({
+                    //     // icon: 'none',
+                    //     // message: i18n.t(msg)
+                    //     // message: '网络波动请刷新页面'
+                    //     message: 'request error'
+                    // });
+                    // Promise.reject(error.message)
                     break
             }
+            error.message = showNotify({
+                // icon: 'none',
+                // message: i18n.t(msg)
+                // message: '网络波动请刷新页面'
+                message: error.message || 'request error'
+            });
+            
+            Promise.reject(error.message)
         }
         // eslint-disable-next-line prefer-promise-reject-errors
         return Promise.reject(error)

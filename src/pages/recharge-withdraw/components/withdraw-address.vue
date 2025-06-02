@@ -57,7 +57,7 @@
       <div class="withdraw-input2">
         <div class="w-full flex justify-between pb-15">
           <div>{{ $t('当前余额') }}</div>
-          <div class="primary-color">{{ smartToFixed(balance?.usdtMoney || 0) }}USDT ≈ {{ yueVal + ' ' + (selBlockChain?.coin || 'USDT') }}</div>
+          <div class="primary-color">{{ smartToFixed(balance?.usdtMoney) }}USDT ≈ {{ yueVal + ' ' + (selBlockChain?.coin || 'USDT') }}</div>
         </div>
         <div class="w-full flex justify-between pb-15">
           <div>{{ $t('手续费') }}</div>
@@ -151,14 +151,14 @@ const yueVal = computed(() => {
   // if(!balance.value?.usdtMoney || balance.value?.usdtMoney == 0){
   //   return 0 + (selBlockChain.value?.coin || 'USDT')
   // }
-  console.log('selBlockChain', selBlockChain.value)
+  // console.log('selBlockChain', selBlockChain.value)
 
-  return smartToFixed(preciseDiv(balance.value?.usdtMoney || 0, selBlockChain.value?.fee || 1))
+  return smartToFixed(preciseDiv(balance.value?.usdtMoney, selBlockChain.value?.fee || 1))
 })
 
 // 实际到账
 const arrivalAmount = computed(() => {
-  return smartToFixed(preciseSub(amount.value, preciseMul(amount.value, withdrawFee.value)) || 0)
+  return smartToFixed(preciseSub(amount.value, preciseMul(amount.value, withdrawFee.value)))
 })
 
 const addressList = ref([])
@@ -233,7 +233,7 @@ function getCfg() {
         addressVal.value = res?.existWithdrawAddress || ''
       }
 
-      console.log('selBlockChain', selBlockChain.value, res.existWithdrawAddress, addressVal.value)
+      // console.log('selBlockChain', selBlockChain.value, res.existWithdrawAddress, addressVal.value)
 
     } else {
 

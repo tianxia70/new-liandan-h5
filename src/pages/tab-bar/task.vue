@@ -39,7 +39,7 @@
       <div class="list-box">
         <div class="list-item" v-for="item in listData" :key="item.orderId">
           <div class="flex justify-between pb-10">
-            <div class="item-name flex-shrink one-text pr-15">{{ locale == 'zh-CN' ? item?.cnTitle : enTitle }}</div>
+            <div class="item-name flex-shrink one-text pr-15">{{ locale == 'zh-CN' ? item?.cnTitle : item?.enTitle }}</div>
              <!-- <div></div> -->
             <van-tag type="warning" v-if="item?.status == 0">{{ $t('未完成') }}</van-tag>
           </div>
@@ -101,9 +101,10 @@ import EmptyComp from '@/components/empty/index.vue'
 import { showToast, showSuccessToast, showLoadingToast, closeToast } from 'vant';
 // const { theme, setTheme } = useTheme()
 import { useRoute } from "vue-router"
-import { useUserStore } from '@/store'
+import { useUserStore, useWalletStore } from '@/store'
 
 const userStore = useUserStore()
+const walletStore = useWalletStore()
 const { t, locale } = useI18n();
 const route = useRoute()
 // 判断首次加载哪一个tab
@@ -195,6 +196,7 @@ function handleDone(pwd) {
   });
   apiOrderStartPay(params).then(res => {
     showSuccessToast(t('支付成功'))
+		walletStore.getWalletBalance()
     onRefresh()
   }).finally(() => {
     closeToast()

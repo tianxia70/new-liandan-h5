@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watchEffect, watch } from 'vue'
-import { useUserStore, useWalletStore } from '@/store'
+import { useUserStore, useWalletStore, useAppStore } from '@/store'
 import { primaryColor } from '@/utils/theme'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -76,6 +76,7 @@ audioInit()
 
 const userStore = useUserStore()
 const walletStore = useWalletStore()
+const appStore = useAppStore()
 const route = useRoute()
 const router = useRouter()
 // const usdt = computed(() => {
@@ -112,6 +113,7 @@ function getUserInfo() {
 }
 
 async function getAppCfg() {
+  // appStore.getSystemCfg()
 
 	if(token.value) {
 		userStore.getVipList()
@@ -120,7 +122,8 @@ async function getAppCfg() {
   chatRemove()
   setTimeout(async () => {
 
-    ImUrl.value="https://lt.xhduh.com/"
+    // ImUrl.value="https://lt.xhduh.com/"
+    ImUrl.value = 'https://chat.xhduh.com/'
     await chatInit(ImUrl)
   }, 2000)
 }

@@ -30,7 +30,7 @@
         <div class="tit">{{ $t('钱包余额') }}</div>
         <div class="flex justify-between items-center">
           <div class="money" v-if="userStore.showBalance">
-            ${{ smartToFixed(balance?.usdtMoney || 0) }}
+            ${{ smartToFixed(balance?.usdtMoney) }}
           </div>
           <div class="money" v-else>
             $******
@@ -179,11 +179,12 @@ import { computed, ref, onMounted } from 'vue'
 import { navigateTo, switchTab, copyText, smartToFixed } from '@/utils'
 import {useRouter} from "vue-router"
 import { apiUserHomePageList, apiUserGoodsList } from '@/api/user'
-import { useUserStore, useWalletStore } from '@/store'
+import { useUserStore, useWalletStore, useAppStore } from '@/store'
 import PopNotice from '@/components/pop-notice/index.vue'
 
 import avatarImg from '@/assets/images/user/headimg.png'
 
+const appStore = useAppStore()
 const walletStore = useWalletStore()
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
@@ -224,6 +225,7 @@ onMounted(() => {
 function goPage(sectionType = '') {
   const selItems = pageList.value.filter(item => item.sectionType == sectionType)
   if(selItems?.length) {
+    appStore.setSectionArr([...selItems])
     router.push('/webpage?conts='+JSON.stringify(selItems))
   }
 }

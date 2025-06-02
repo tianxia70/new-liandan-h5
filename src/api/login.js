@@ -11,7 +11,7 @@ export const apiLogin = (data) => {
     return request({
         url: "/api/user/login",
         method: "post",
-        isLoading: true,
+        loading: true,
         data
     })
 };
@@ -19,7 +19,7 @@ export const apiRegister = (data) => {
     return request({
         url: "/api/user/buyer/register",
         method: "post",
-        isLoading: true,
+        loading: true,
         data
     })
 };
