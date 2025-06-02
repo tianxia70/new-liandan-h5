@@ -67,14 +67,14 @@
           <div class="detail-item">
             <div class="flex items-center justify-between">
               <div class="title font-18">{{ $t('今日收入') }}</div>
-              <div class="money font-22 primary-color">${{ smartToFixed(balanceData?.profit) }}</div>
+              <div class="money font-22 primary-color">${{ smartToFixed(infoData?.profit) }}</div>
             </div>
             <div class="info">{{ $t('系统会更新每日收入') }}</div>
           </div>
           <div class="detail-item">
             <div class="flex items-center justify-between">
               <div class="title font-18">{{ $t('钱包余额') }}</div>
-              <div class="money font-22 primary-color">${{ smartToFixed(balanceData?.balance) }}</div>
+              <div class="money font-22 primary-color">${{ smartToFixed(infoData?.balance) }}</div>
             </div>
             <div class="info">{{ $t('每项任务的利润增加到资产余额中') }}</div>
           </div>
@@ -178,7 +178,7 @@ const walletStore = useWalletStore()
 const router = useRouter(); // 获取路由实例
 
 const infoData = ref({})
-const balanceData = ref({})
+// const balanceData = ref({})
 const orderInfo = ref({})
 const showPwd = ref(false)
 const showPop = ref(false)
@@ -234,9 +234,9 @@ function getInfoData() {
     infoData.value = { ...res }
   })
 
-  apiUserFindUserInfo({}).then(res => {
-    balanceData.value = { ...res }
-  })
+  // apiUserFindUserInfo({}).then(res => {
+  //   balanceData.value = { ...res }
+  // })
 }
 
 function handleQiangdan() {

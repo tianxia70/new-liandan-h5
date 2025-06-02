@@ -240,6 +240,7 @@ const handleTab = (tab) => {
   selTab.value = tab
   formData.password = ''
   formData.rePassword = ''
+  formData.agentCode = ''
 }
 
 const sendPhoneCode = () => {

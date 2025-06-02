@@ -806,6 +806,8 @@ export default {
   "errorCode.521068": "Deposit must ≤{_$1}",
   "errorCode.521069": "The current number of tasks completed by the user cannot be less than {_$1}",
   "errorCode.521070": "You are not a VIP user yet and withdrawal operations are not supported for the time being",
+  "errorCode.521071": "Withdrawal amount cannot be less than {_$1}",
+  "errorCode.521072": "Withdrawal amount cannot be greater than {_$1}",
   "errorCode.510001": "Approval error, contact admin",
   "errorCode.510002": "Balance conversion error",
   "errorCode.511035": "API exists",

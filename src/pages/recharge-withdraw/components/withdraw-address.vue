@@ -200,7 +200,6 @@ function getCfg() {
   //     ...selBlockChain.value
   //   }]
   // }
-
   // 提现汇率
   apiWithdrawFee({}).then(res => {
     withdrawFee.value = res?.withdraw_fee || 0
@@ -251,6 +250,12 @@ function getCfg() {
         }]
       }
     }
+  })
+}
+
+function getSessionToken() {
+  apiWithdrawOpen({}).then(async res => {
+    openCfg.value = {...res}
   })
 }
 
@@ -334,6 +339,10 @@ function tixianDone(pwd) {
         setTimeout(() => {
           router.push('/submitCompleted?path=withdrawRecord')
         }, 2000)
+      }).catch(() => {
+        
+        getSessionToken()
+
       }).finally(() => {
         isLoading.value = false
         closeToast()
