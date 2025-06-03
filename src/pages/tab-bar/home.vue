@@ -208,6 +208,8 @@ const curVip = computed(() => {
 })
 
 onMounted(() => {
+  walletStore.getWalletBalance()
+  
   apiUserHomePageList({}).then(res => {
     if(res?.length) {
       pageList.value = [...res]

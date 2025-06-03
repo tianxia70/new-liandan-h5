@@ -285,7 +285,7 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
   width: 100vw;
   height: 100vh;
   position: relative;
-  max-width: 550px;
+  max-width: 640px;
   margin: 0 auto;
   // color: $primary-color;
 }

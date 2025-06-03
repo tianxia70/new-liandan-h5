@@ -6,7 +6,7 @@
 
 		<div class="tabbar-bottom">
 			<!-- <v-navbar :idx="idx" @change="change"></v-navbar> -->
-			<van-tabbar v-model="tabActive">
+			<van-tabbar :fixed="false" v-model="tabActive">
 				<van-tabbar-item name="home" replace to="/home">
 					<template #icon="props">
 						<img v-if="props.active" src="@/assets/images/tab-bar/home_act.jpeg" />
@@ -68,7 +68,7 @@ watchEffect(() => {
 	width: 100%;
 	height: 100%;
 	position: relative;
-	max-width: 750px;
+	max-width: 640px;
 	// display: flex;
 	// flex-direction: column;
 

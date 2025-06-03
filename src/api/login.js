@@ -86,3 +86,14 @@ export const apiUserModifyTransPwd = (data) => {
         data
     })
 };
+
+
+// 绑定邮箱or手机
+export const apiUserCheckEmailOrPhone = (data) => {
+    return request({
+        url: "/api/user/checkEmailOrPhone",
+        method: "post",
+        loading: true,
+        data
+    })
+};
