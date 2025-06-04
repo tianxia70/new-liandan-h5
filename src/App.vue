@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watchEffect, watch } from 'vue'
+import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { useUserStore, useWalletStore, useAppStore } from '@/store'
 import { primaryColor } from '@/utils/theme'
 import { useRoute, useRouter } from 'vue-router'
@@ -77,8 +77,8 @@ audioInit()
 const userStore = useUserStore()
 const walletStore = useWalletStore()
 const appStore = useAppStore()
-const route = useRoute()
 const router = useRouter()
+const route = useRoute()
 // const usdt = computed(() => {
 // 	return walletStore.usdt || 0
 // })
@@ -98,7 +98,9 @@ watch(() => token.value, (val) => {
 
 onMounted(async() => {
   getAppCfg()
-  getUserInfo()
+  nextTick(() => {
+    getUserInfo()
+  })
 })
 
 function getUserInfo() {
@@ -106,8 +108,11 @@ function getUserInfo() {
     userStore.getUserInfo()
   } else {
     // 如果没有登录，除了不需要登录的路由，其他全部跳转登录
+    // console.log('route?.meta?.noAuth', route)
     if(!route?.meta?.noAuth){
-      router.replace('/welcome')
+      const userCode = route.query?.userCode || ''
+      // console.log(1212121, route)
+      router.replace('/welcome?userCode='+userCode)
     }
   }
 }

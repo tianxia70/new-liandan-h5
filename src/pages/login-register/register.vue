@@ -144,7 +144,7 @@ import Vcode from "vue3-puzzle-vcode"
 
 import { showLoadingToast, closeToast, showToast } from 'vant'
 import { useI18n } from 'vue-i18n'
-import {useRouter} from "vue-router"
+import { useRouter, useRoute } from "vue-router"
 import { validatePhone, validateEmail } from '@/utils/validate'
 import { navigateTo } from '@/utils'
 import { apiRegister, apiSendCodeNoneLogin } from '@/api/login'
@@ -163,6 +163,7 @@ const codeImgs = [
 ]
 const showImgCode = ref(false)
 
+const route = useRoute()
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
 
@@ -221,6 +222,8 @@ const verifyCaptcha = computed(() => {
 })
 
 onMounted(() => {
+  formData.agentCode = route.query?.userCode || ''
+  // userCode.value = route.query?.userCode || ''
   getSysparaFn()
 })
 
@@ -240,7 +243,7 @@ const handleTab = (tab) => {
   selTab.value = tab
   formData.password = ''
   formData.rePassword = ''
-  formData.agentCode = ''
+  // formData.agentCode = ''
 }
 
 const sendPhoneCode = () => {

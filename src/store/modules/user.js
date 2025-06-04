@@ -102,6 +102,7 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem('token')
 			this.token = ''
 			this.user = {...userOpt}
+      console.log(22222)
 			router.replace('/welcome')
 		}
 	}

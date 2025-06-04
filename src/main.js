@@ -22,4 +22,6 @@ vantLocales(i18n.global.locale); // 配置国际化
 
 // app.use(Notify);
 // app.config.globalProperties.$notify = Notify;
-app.mount('#app')
+
+router.isReady().then(() => app.mount('#app'));
+// app.mount('#app')

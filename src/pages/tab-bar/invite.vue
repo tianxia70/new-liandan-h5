@@ -21,7 +21,7 @@
             <img class="vip" v-if="curVip?.level" :src="curVip?.iconImg" alt="" srcset="">
           </div>
           <div class="balance" @click="copyText(userInfo?.usercode)">{{ $t('邀请码') }}: {{ userInfo?.usercode }} </div>
-          <div class="balance">{{ $t('信用评分') }}: {{ userInfo?.creditScore || '-' }}</div>
+          <div class="balance">{{ $t('信用评分') }}: {{ userInfo?.creditScore || 0 }}</div>
         </div>
       </div>
 

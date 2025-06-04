@@ -21,7 +21,6 @@ import EmptyComp from '@/components/empty/index.vue'
 import {useRouter, useRoute} from "vue-router"
 import { navigateTo, navigateBack } from '@/utils';
 import { useUserStore, useAppStore } from '@/store'
-import { showSuccessToast, showToast } from 'vant';
 
 const { t } = useI18n();
 const appStore = useAppStore()
@@ -52,7 +51,7 @@ const title = computed(() => {
 })
 
 onMounted(() => {
-  // console.log('route.query.conts', route.query.conts)
+  // console.log('route.query.conts', route.query)
   setTimeout(() => {
     let conts = [...sectionArr.value]
     // console.log('conts', conts)

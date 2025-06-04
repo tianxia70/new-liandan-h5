@@ -19,7 +19,7 @@
         <van-cell :title="$t('手机号')" :value="userInfo?.phone || '-'" />
         <van-cell :title="$t('邮箱')" :value="userInfo?.email || '-'" />
         <!-- <van-cell title="Nickname" value="内容" is-link @click="showNickDialog"/> -->
-        <van-cell :title="$t('信用评分')" :value="userInfo?.creditScore || '-'" />
+        <van-cell :title="$t('信用评分')" :value="userInfo?.creditScore || 0" />
         <van-cell :title="$t('邀请码')" :value="userInfo?.usercode || '-'" />
         <van-cell :title="$t('登录密码')" is-link @click="navigateTo('/changePassword')"/>
         <van-cell :title="$t('资金密码')" is-link @click="navigateTo('/changeTransPassword')"/>
