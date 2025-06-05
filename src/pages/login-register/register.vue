@@ -102,10 +102,12 @@
         </van-cell-group>
 
       </div>
-
+      
       <div class="check-item">
-        <!-- <van-checkbox v-model="checked" shape="square" >Remember me</van-checkbox> -->
-        <div></div>
+        <van-checkbox v-model="checked" shape="square" >
+          {{ $t('我已阅读并同意') }} <span class="primary-color" @click.stop="handleProtocol(1)">《{{ $t('用户服务协议') }}》</span> {{ $t('和') }} <span class="primary-color" @click.stop="handleProtocol(2)">《{{ $t('隐私政策') }}》</span>
+        </van-checkbox>
+        <!-- <div></div> -->
         <div class="btn btn-link" @click="navigateTo('/customerService')">{{ $t('在线客服') }}</div>
       </div>
       <!-- <div class="login-btn">
@@ -147,10 +149,10 @@ import { useI18n } from 'vue-i18n'
 import { useRouter, useRoute } from "vue-router"
 import { validatePhone, validateEmail } from '@/utils/validate'
 import { navigateTo } from '@/utils'
-import { apiRegister, apiSendCodeNoneLogin } from '@/api/login'
+import { apiRegister, apiSendCodeNoneLogin, apiGetProtocol } from '@/api/login'
 import { apiGetSyspara } from '@/api/app'
 import { phoneCodeColumns } from '@/config/options'
-import { useUserStore } from '@/store'
+import { useUserStore, useAppStore } from '@/store'
 
 import img1 from "@/assets/images/public/1.jpeg"
 import img2 from "@/assets/images/public/2.jpeg"
@@ -166,8 +168,9 @@ const showImgCode = ref(false)
 const route = useRoute()
 const router = useRouter(); // 获取路由实例
 const userStore = useUserStore()
+const appStore = useAppStore()
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const selTab = ref('username')
 const formOpt = {
   username: '',
@@ -232,11 +235,25 @@ function getSysparaFn() {
     // console.log('sssss ', res)
     sysParaRes.value = res?.length ? [ ...res ] : []
   })
+
+  // if(appStore.protocolList?.length == 0){
+    // 获取协议内容
+    apiGetProtocol({lang: locale.value == 'zh-CN' ? 'zh-CN' : 'en'}).then(res => {
+      console.log('ddd', res)
+      if(res?.length) {
+        appStore.protocolList = [...res]
+      }
+    })
+  // }
 }
 
 const onConfirmCode = ({ selectedValues, selectedOptions }) => {
   showCodePicker.value = false
   pickerCodeValue.value = selectedValues
+}
+
+const handleProtocol = (type) => {
+  navigateTo('/protocol?type='+type)
 }
 
 const handleTab = (tab) => {
@@ -391,6 +408,11 @@ function handleSubmit() {
   }
   if(formData.agentCode.trim() == '') {
     showToast(t('请输入邀请码'));
+    return
+  }
+
+  if(!checked.value) {
+    showToast(t('请同意相关协议'));
     return
   }
   params.value = {

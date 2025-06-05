@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
 		showBalance: false,
 		unReadNum: 0,
 		language: '',
-		vipList: [],
+		vipList: []
 	}),
 	getters: {
 		getToken(state) {

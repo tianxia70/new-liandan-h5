@@ -6,7 +6,8 @@ export const useAppStore = defineStore('app', {
   state: () => ({
     noticeList: [],
     sectionArr: [],
-    isShowNotice: true
+    isShowNotice: true,
+		protocolList: []
   }),
   getters: {
   },

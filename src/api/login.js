@@ -97,3 +97,13 @@ export const apiUserCheckEmailOrPhone = (data) => {
         data
     })
 };
+
+// 获取系统协议
+export const apiGetProtocol = (params) => {
+    return request({
+        url: "/api/user/protocol",
+        method: "get",
+        params
+    })
+};
+// 

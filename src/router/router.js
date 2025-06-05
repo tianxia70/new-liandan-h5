@@ -53,6 +53,13 @@ const routes = [
 			component: () => import('@/pages/login-register/register.vue')
 	},
 	{
+			path: '/protocol',
+			name: 'protocol',
+			meta: { noAuth: true },
+			component: () => import('@/pages/login-register/protocol.vue')
+	},
+	
+	{
 			path: '/language',
 			name: 'language',
 			component: () => import('@/pages/language/index.vue')

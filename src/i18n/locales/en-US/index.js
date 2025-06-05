@@ -84,7 +84,12 @@ export default {
 	'用户余额小于限制购买金额': 'The user balance is less than the limit purchase amount',
 	'客服信息加载失败': 'Customer service information failed to load',
 	"您尚未身份认证": 'You have not been authenticated, whether to authenticate',
-	'请求地址不存在': 'Not found: {url}',
+	'请求地址不存在': 'Not found: {url}',	
+  '我已阅读并同意': 'I have read and agreed to the',
+	'用户服务协议': 'User Service Agreement',
+	'和': 'and',
+	'隐私政策': 'Privacy Policy',
+	'请同意相关协议': 'Please agree to the "User Service Agreement" and the "Privacy Policy" first.',
 
   'recharge': 'Recharge',
   'withdraw': 'Withdraw',
