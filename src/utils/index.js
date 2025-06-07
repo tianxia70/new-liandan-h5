@@ -262,7 +262,8 @@ export function smartToFixed(num = 0, len = 2) {
 	// 获取小数部分的长度（去除末尾的零）
 	const trimmedDecimal = decimalPart.replace(/0+$/, '');
 	const finalDecimal = trimmedDecimal.length > len ? 
-	number.toFixed(len).split('.')[1] : 
+	// number.toFixed(len).split('.')[1] : 
+    trimmedDecimal.substring(0, len) : 
 	trimmedDecimal || '';
 	    
 	return finalDecimal ? 
