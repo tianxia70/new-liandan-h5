@@ -82,7 +82,7 @@ export default {
   '请选择提现地址': 'Please select the withdrawal address',
 	'请输入提现地址': 'Please enter the withdrawal address',
 	'用户余额小于限制购买金额': 'The user balance is less than the limit purchase amount',
-	'客服信息加载失败': 'Customer service information failed to load',
+	'客服信息加载中': 'Customer service information loading',
 	"您尚未身份认证": 'You have not been authenticated, whether to authenticate',
 	'请求地址不存在': 'Not found: {url}',	
   '我已阅读并同意': 'I have read and agreed to the',

@@ -33,7 +33,7 @@ function handleStart(){
   if(window?.im_create_iframe_client) {
     window.im_create_iframe_client.open()
   } else {
-    showToast(t('客服信息加载失败'))
+    showToast(t('客服信息加载中'))
   }
   // im_create_iframe_client && im_create_iframe_client.open()
 

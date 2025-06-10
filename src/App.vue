@@ -96,6 +96,10 @@ watch(() => token.value, (val) => {
   }
 })
 
+watch(() => appStore.lang, (val) => {
+  startChatFn()
+})
+
 onMounted(async() => {
   getAppCfg()
   nextTick(() => {
@@ -124,8 +128,21 @@ async function getAppCfg() {
 		userStore.getVipList()
 		walletStore.getWalletBalance()
 	}
+  startChatFn()
+  // chatRemove()
+  // setTimeout(async () => {
+
+  //   // ImUrl.value="https://lt.xhduh.com/"
+  //   ImUrl.value = 'https://chat.xhduh.com/'
+  //   await chatInit(ImUrl)
+  // }, 2000)
+}
+
+let chatTimer = null
+function startChatFn() {
+  chatTimer && clearTimeout(chatTimer)
   chatRemove()
-  setTimeout(async () => {
+  chatTimer = setTimeout(async () => {
 
     // ImUrl.value="https://lt.xhduh.com/"
     ImUrl.value = 'https://chat.xhduh.com/'
@@ -208,6 +225,7 @@ async function chatInit(ImUrl) {//只允许会员登录后才能用聊天系统�
   console.log(11111)
   const title = t('在线客服')
   chatIsInit = true
+  console.log('chat: ', title)
   const extData = {
     routerConfig: [
       {

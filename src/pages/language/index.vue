@@ -24,9 +24,11 @@ import { ref } from 'vue'
 import { useRouter } from "vue-router"
 import { setStorage } from '@/utils'
 import { useI18n } from 'vue-i18n'
+import { useAppStore } from '@/store'
 import { i18n, vantLocales } from '@/i18n';
 
 const { locale } = useI18n()
+const appStore = useAppStore()
 const router = useRouter(); // 获取路由实例
 
 const lang = ref([
@@ -52,6 +54,7 @@ function handleSetLang(lang) {
   localStorage.setItem('h5Lang', lang)
   locale.value = lang
   vantLocales(lang); // 配置国际化
+  appStore.lang = lang
   // this.$i18n.locale = lang
   // this.setLanguage(lang)
   onClickLeft()

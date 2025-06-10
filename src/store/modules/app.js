@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { apiBulletin } from '@/api/user'
+import { i18n } from "@/i18n";
 // import { apiGetSysconfig } from '@/api/app'
 
 export const useAppStore = defineStore('app', {
@@ -7,7 +8,8 @@ export const useAppStore = defineStore('app', {
     noticeList: [],
     sectionArr: [],
     isShowNotice: true,
-		protocolList: []
+		protocolList: [],
+    lang: i18n.global.locale,
   }),
   getters: {
   },
